@@ -1,0 +1,140 @@
+html,body
+{
+    font-size: 100%;
+    font-family: "iranFamily";
+}
+
+/*index.php Styles*/
+
+.select-system
+{
+    margin: auto;
+    margin-top: 70px;
+    text-align: center;
+}
+.select-system form
+{
+    max-width: 300px;
+    margin: auto;
+    padding: 20px 15px 35px 15px;
+    box-shadow: 0px 0px 10px #ccc;
+    text-align: right;
+}
+.select-system form label
+{
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+.select-system form select
+{
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.select-system form button
+{
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+.select-system img
+{
+    width: 180px;
+}
+
+/*login.php Styles*/
+
+.login-system
+{
+    margin: auto;
+    margin-top: 70px;
+    text-align: center;
+}
+.login-system img
+{
+    width: 180px;
+}
+.login-system form
+{
+    max-width: 300px;
+    margin: auto;
+    padding: 35px 15px 35px 15px;
+    box-shadow: 0px 0px 10px #ccc;
+    text-align: right;
+}
+.login-system form input[type='text']
+{
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.login-system form input[type='password']
+{
+    border-radius: 0px;
+}
+.login-system form button[type='submit']
+{
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+/*userPanel.php Styles*/
+
+.dash-main
+{
+    width: 90%;
+    height: 80vh;
+    margin-top: 100px;
+}
+.dash-main iframe
+{
+    width: 100%;
+    height: 100%;
+}
+.dash-main textarea
+{
+    width: 100%;
+    height: 40px;
+}
+
+/*insertProduct.php Styles*/
+
+.insertProduct form
+{
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-top: 10px;
+}
+.insertProduct input
+{
+    margin-bottom: 10px;
+}
+
+/*inAndOutProdact Styles*/
+.out h3
+{
+    margin-top: 20px;
+}
+.in input,.out input
+{
+    margin-bottom: 10px;
+}
+.in form,.out form
+{
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-top: 10px;
+}
+.in input[type='text'],.out input[type='text']
+{
+    font-size: 0.9rem;
+}
+.in h3
+{
+    color: green;
+}
+.out h3
+{
+    color: red;
+}
+.in h5,.out h5
+{
+    margin-right: 15px;
+}
