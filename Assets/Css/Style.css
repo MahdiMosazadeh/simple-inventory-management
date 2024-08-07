@@ -2,8 +2,24 @@ html,body
 {
     font-size: 100%;
     font-family: "iranFamily";
+    background-color: #eee;
 }
-
+.blue-color
+{
+    color: blue;
+}
+.red-color
+{
+    color: red;
+}
+.green-color
+{
+    color: green;
+}
+.orange-color
+{
+    color: orange;
+}
 /*index.php Styles*/
 
 .select-system
@@ -108,6 +124,7 @@ html,body
 }
 
 /*inAndOutProdact Styles*/
+
 .out h3
 {
     margin-top: 20px;
@@ -137,4 +154,58 @@ html,body
 .in h5,.out h5
 {
     margin-right: 15px;
+}
+
+/*searchProdact Styles*/
+@media screen and (max-width: 500px)
+{
+    .searchProduct ,.searchProduct input,.searchProduct button,.searchProduct table
+    {
+        font-size: 0.7rem;
+    }
+}
+.searchProduct ,.searchProduct input,.searchProduct button,.searchProduct table
+{
+    
+    margin-top:10px ;
+}
+.searchProduct h3
+{
+    margin-top: 25px;
+}
+.thead-dark tr th
+{
+    background-color: #ddd;
+    
+}
+.thead-dark tr th td
+{
+    font-family: 'iranFamily';
+}
+
+/* statisticsProduct Style*/
+
+@media screen and (max-width: 500px)
+{
+    .statisticsProduct ,.statisticsProduct input,.statisticsProduct button,.statisticsProduct table
+    {
+        font-size: 0.7rem;
+    }
+}
+.statisticsProduct ,.statisticsProduct input,.statisticsProduct button,.statisticsProduct table
+{
+    
+    margin-top:10px ;
+}
+.statisticsProduct h3
+{
+    margin-top: 25px;
+}
+.thead-dark tr th
+{
+    background-color: #ddd;
+}
+.thead-dark tr th td
+{
+    font-family: 'iranFamily';
 }
