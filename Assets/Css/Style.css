@@ -209,3 +209,14 @@ html,body
 {
     font-family: 'iranFamily';
 }
+
+/* updateProduct Style*/
+
+.updateProduct
+{
+    margin-top:10px ;
+}
+.updateProduct > .row > .col > form > input,.updateProduct button
+{
+    margin-top: 15px;
+}
