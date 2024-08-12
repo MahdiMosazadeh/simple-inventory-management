@@ -28,7 +28,7 @@
                     <input type="text" name="" id="" class="form-control" style="direction: rtl" placeholder="واحد سنجش کالا (به طور مثال : عدد)" required="required" oninvalid="this.setCustomValidity('واحد سنجش کالا را وارد کنید')" oninput="setCustomValidity('')">
                     <input type="number" name="" id="" class="form-control" min="0" max="10000000" step="1" style="direction: rtl" placeholder="موجودی اولیه" required="required" oninvalid="this.setCustomValidity('نمیتواند اعشار یا خالی باشد')" oninput="setCustomValidity('')">
                     <input type="text" name="" id="" class="form-control" style="direction: rtl" placeholder="توضیحات" oninvalid="this.setCustomValidity('توضیحات')" oninput="setCustomValidity('')">
-                    <button type="submit"  class="btn btn-primary">جستجوی کالا</button>
+                    <button type="submit"  class="btn btn-dark">جستجوی کالا</button>
                     <button type="submit"  class="btn btn-primary">بروزرسانی کالا</button>
                 </form>
             </div>
