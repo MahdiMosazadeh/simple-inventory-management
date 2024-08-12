@@ -212,9 +212,10 @@ html,body
 
 /* updateProduct Style*/
 
-.updateProduct
+.updateProduct .row .col form
 {
-    margin-top:10px ;
+ 
+    padding: 20px 20px;
 }
 .updateProduct > .row > .col > form > input,.updateProduct button
 {
