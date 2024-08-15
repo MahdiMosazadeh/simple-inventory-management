@@ -17,7 +17,7 @@
             if($_POST['system'] == 2)
             {
                 $_SESSION['systemType'] = 2;
-                redirect('../UserPanel/userPanel.php');
+                redirect('../Inv/userPanel.php');
             }
             else if($_POST['system'] == 1)
             {
