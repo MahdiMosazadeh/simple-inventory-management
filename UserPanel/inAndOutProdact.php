@@ -1,3 +1,15 @@
+<?php
+    session_start();
+    require_once '../Scripts/dbConnect.php';
+    require_once '../Scripts/functions.php';
+
+    if(!isset($_SESSION['logged_in']))
+    {
+        redirect('../index.php');
+    }
+    else
+    {
+?>
 <!DOCTYPE html>
 <html lang="fa">
 <head>
@@ -51,3 +63,6 @@
 <script src="../Assets/Js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php
+    }
+?>
