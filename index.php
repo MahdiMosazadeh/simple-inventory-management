@@ -3,6 +3,7 @@ session_start();
 require_once './Scripts/dbConnect.php';
 require_once './Scripts/functions.php';
 
+// If User Click Login Btn Then Check This IF
 if (isset($_POST['loginBtn']))
 {
     //filter user and pass (inputs) with function cleanUpInputs.
@@ -28,6 +29,11 @@ if (isset($_POST['loginBtn']))
     }
 }
 
+// Check The Exit Variable And If Its Set Then Close The Login Session.
+if(isset($_GET['exit']))
+{
+    $_SESSION['logged_in']= null;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fa">

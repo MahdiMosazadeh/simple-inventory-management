@@ -68,7 +68,7 @@
                                         <a target="user-panel-frame" class="nav-link" href="aboutApp.php"><i class="fa-solid fa-address-card"></i> درباره داده فراز</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="../index.php"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>
+                                        <a class="nav-link" href="../index.php?exit=1"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>
                                     </li>
                                 </ul>
                             </div>
