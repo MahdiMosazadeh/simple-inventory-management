@@ -77,11 +77,11 @@
                 </nav>
             </div>
         </section>
-
+                
         <section class="row">
             <div class="col dash-main">
                 <iframe src="dashboard.php" frameborder="0" name="user-panel-frame">
-
+                
                 </iframe>
             </div>
         </section>

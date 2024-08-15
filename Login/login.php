@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once '../Scripts/dbConnect.php';
+    //require_once '../Scripts/dbConnect.php';
     require_once '../Scripts/functions.php';
 
     //Check the User Session Login , If Session Doesn't Set
@@ -9,8 +9,23 @@
     {
         redirect('../index.php');
     }
+    //Set The System Type And Here We Can Connect DB And Set The User Type.
     else
     {
+        if (isset($_POST['systemCheck']))
+        {
+            if($_POST['system'] == 2)
+            {
+                $_SESSION['systemType'] = 2;
+                redirect('../UserPanel/userPanel.php');
+            }
+            else if($_POST['system'] == 1)
+            {
+                $_SESSION['systemType'] = 1;
+                redirect('../Acc/userPanel.php');
+            }
+            
+        }
 ?>
 <!DOCTYPE html>
 <html lang="fa">
@@ -30,13 +45,13 @@
         <section class="row select-system">
             <div class="col">
                 <img src="../Assets/Images/logo.png" alt="لولوی داده فراز">
-                <form action="check.php" method="post" class="form-control">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form-control">
                     <label for="select" class="lable-control">سیستم مورد نظر را انتخاب کنید</label>
-                    <select id="select" class="form-select">
-                        <option value="1" disabled>حسابداری</option>
-                        <option value="2">انبارداری</option>
+                    <select id="system" name="system" class="form-select">
+                        <option id="acc" name="acc" value="1" disabled>حسابداری</option>
+                        <option id="inv" name="inv" value="2">انبارداری</option>
                     </select>
-                    <button type="submit" class="btn btn-primary form-control" name="select-system">انتخاب سیستم</button>
+                    <button type="submit" id="systemCheck" class="btn btn-primary form-control" name="systemCheck">انتخاب سیستم</button>
                 </form>
             </div>
         </section>
