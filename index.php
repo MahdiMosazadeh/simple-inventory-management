@@ -25,7 +25,7 @@ if (isset($_POST['loginBtn']))
     }
     else
     {
-        echo "<script>alert('نام کاربری یا رمزعبور اشتباه است');</script>";
+        $incurectUserPass = 1;
     }
 }
 
@@ -47,11 +47,26 @@ if(isset($_GET['exit']))
     <link rel="stylesheet" href="./Assets/Css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="./Assets/Css/Style.css">
     <link rel="stylesheet" href="./Assets/Css/all.css">
+    <link rel="stylesheet" href="./Assets/Css/sweetalert2.min.css"> 
+    <script src="./Assets/Js/sweetalert2.js"></script>
 </head>
 <body dir="rtl">
     <main class="container">
         <section class="row login-system">
             <div class="col">
+                <?php
+                    if(isset($incurectUserPass))
+                    {
+                     echo '<script type="text/javascript">  
+                            Swal.fire
+                                    ({    
+                                        text: "نام کاربری یا رمزعبور اشتباه است",  
+                                        icon: "error", 
+                                        confirmButtonText: "تأیید"  
+                                    });
+                      </script>';
+                    }
+                ?>
                 <img src="./Assets/Images/logo.png" alt="لولوی داده فراز">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" class="form-control">
                     <input id="userName" name="userName" class="form-control" type="text"  required="required" placeholder="نام کاربری" oninvalid="this.setCustomValidity('لطفا نام کاربری یا یوزرنیم خود را وارد کنید')" oninput="setCustomValidity('')"></input>
