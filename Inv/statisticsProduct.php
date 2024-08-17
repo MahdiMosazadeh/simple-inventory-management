@@ -105,6 +105,7 @@
                     <?php
                         $searchSqlAll = $conn -> query('SELECT * FROM products WHERE p_qty > 5');
                         $resultAll = $searchSqlAll -> fetchAll(PDO::FETCH_ASSOC);
+                        $conn = null;
                         $num = 1;
                     ?>
                     <table class="table">
