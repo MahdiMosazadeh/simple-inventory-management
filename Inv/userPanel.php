@@ -62,7 +62,7 @@
                                         <a target="user-panel-frame" class="nav-link" href="updateProduct.php"><i class="fa-solid fa-pen-to-square"></i> اصلاح کالا</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a target="user-panel-frame" class="nav-link" href="phoneNumbers.php"><i class="fa-duotone fa-solid fa-book-user"></i>اشخاص</a>
+                                        <a target="user-panel-frame" class="nav-link" href="phoneNumbers.php"><i class="fa-duotone fa-solid fa-book-user"></i> اشخاص</a>
                                     </li>
                                     <li class="nav-item">
                                         <a target="user-panel-frame" class="nav-link" href="aboutApp.php"><i class="fa-solid fa-address-card"></i> درباره داده فراز</a>
