@@ -97,14 +97,39 @@
         </section>
         <section class="row" style="margin-top: 15px;">
             <div class="col">
-            <form action="" method="post" class="form-control">
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post" class="form-control">
                     <h3 class="blue-color">
                         جستجوی شخص
                     </h3>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="قسمتی از نام شخص را وارد کنید" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon1">جستجو</button>
+                        <input name="personName" type="text" class="form-control" required="required" placeholder="قسمتی از نام شخص را وارد کنید" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                        <button name="personSearchBtn" class="btn btn-outline-secondary" type="submit" id="button-addon1">جستجو</button>
                     </div>
+                    <?php if(isset($_POST['personSearchBtn'])) { 
+
+                        $personName = $_POST['personName'];
+            
+                        $num = 1;
+            
+                        $searchPersonSql = $conn -> prepare("SELECT * FROM `persons` WHERE `flName` LIKE :search");  
+                        $searchPersonSql -> execute(['search' => '%' . $personName . '%']);  
+            
+                        // دریافت نتایج  
+                        $searchPersonSqlResult = $searchPersonSql->fetchAll(PDO::FETCH_ASSOC);  
+                        
+                        if ($searchPersonSql -> rowCount() == 0 )
+                        {
+                            echo '<script type="text/javascript">  
+                            Swal.fire
+                                    ({    
+                                        text: "شخصی با این نام وجود ندارد",  
+                                        icon: "error", 
+                                        confirmButtonText: "تأیید"  
+                                    });
+                      </script>';
+                        }    
+                    ?>
+                    
                     <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -116,40 +141,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                            <th scope="row">1</th>
-                            <td>مهدی موسی زاده</td>
-                            <td>مشتری</td>
-                            <td>تبریز، میدان آذربایجان، ارم</td>
-                            <td>09146528873</td>
-                            </tr>
-                        <tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>علی ولی زاده</td>
-                            <td>فروشنده</td>
-                            <td>تبریز، میدان آذربایجان، ارم</td>
-                            <td>09143452873</td>
-                            </tr>
-                        <tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>مهدی موسی زاده</td>
-                            <td>مشتری</td>
-                            <td>تبریز، میدان آذربایجان، ارم</td>
-                            <td>09146528873</td>
-                            </tr>
-                        <tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>علی ولی زاده</td>
-                            <td>فروشنده</td>
-                            <td>تبریز، میدان آذربایجان، ارم</td>
-                            <td>09143452873</td>
-                            </tr>
-                        <tr>
+                            <?php foreach ($searchPersonSqlResult as $row): ?>
+                                <tr>
+                                    <th scope="row"><?php echo $num++ ?></th>
+                                    <td><?php echo htmlspecialchars($row['flName']) ?></td>
+                                    <td><?php echo htmlspecialchars($row['persType']) ?></td>
+                                    <td><?php echo htmlspecialchars($row['persAddress']) ?></td>
+                                    <td><?php echo htmlspecialchars($row['persNumber']) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        
                     </tbody>
                 </table>
+                <?php } ?>
                 </form>
             </div>
         </section>
