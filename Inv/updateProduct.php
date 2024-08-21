@@ -34,7 +34,7 @@
                     اصلاح کالای تعریف شده
                     </h3>
                     <p>
-                    ابتدا نام کالا یا کدینگ آن را وارد کرده و دکمه "جستجوی کالا" را بزنید سپس مواردی که قصد دارید اصلاح کنید را بروزرسانی کرده و دکمه "بروزرسانی کالا" را بزنید
+                    ابتدا کدینگ کالا را وارد کرده و دکمه "جستجوی کالا" را بزنید سپس مواردی که قصد دارید اصلاح کنید را بروزرسانی کرده و دکمه "بروزرسانی کالا" را بزنید
                     </p>
                     <input type="number" name="" id="" class="form-control" style="direction: rtl" placeholder="کدینگ" oninvalid="this.setCustomValidity('شماره گذاری کالا ها')" oninput="setCustomValidity('')">
                     <input type="text" name="" id="" class="form-control" style="direction: rtl" placeholder="نام کالا" required="required" oninvalid="this.setCustomValidity('نام کامل کالا را وارد کنید')" oninput="setCustomValidity('')">
