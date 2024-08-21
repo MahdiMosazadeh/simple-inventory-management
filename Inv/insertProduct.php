@@ -22,6 +22,16 @@
             $productQty = cleanUpInputs($_POST['productQty']);
             $productDescription = cleanUpInputs($_POST['productDescription']);
             
+            $checkCodeSql = $conn->prepare("SELECT * FROM products WHERE p_codeing= :code");
+            $checkCodeSql -> bindParam(':code',$productCodeing);
+            $checkCodeSql ->execute();
+
+            if($checkCodeSql -> rowCount() > 0)
+            {
+                $duplicateCode = 1;
+            }
+            else
+            {
             //Insert SQL
             try
             {
@@ -39,6 +49,7 @@
                     throw new \PDOException($e->getMessage(), (int)$e->getCode());
                     $error = $e;
                     $errorMessage = 1;
+            }
             }  
         }
 ?>
@@ -78,6 +89,7 @@
                                         confirmButtonText: "تأیید"  
                                     });
                       </script>';
+                      $successMessage = null;
                     }
                     //Error Insert Message
                     else if(isset($errorMessage))
@@ -90,12 +102,25 @@
                                         confirmButtonText: "تأیید"  
                                     });
                       </script>';
+                      $errorMessage = null;
+                    }
+                    else if(isset($duplicateCode))
+                    {
+                     echo '<script type="text/javascript">  
+                            Swal.fire
+                                    ({    
+                                        text: "این کد کالا تکراری است",  
+                                        icon: "error", 
+                                        confirmButtonText: "تأیید"  
+                                    });
+                      </script>';
+                      $duplicateCode = null;
                     }
                 ?>
                 
                       
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="form-control">
-                <input type="number" name="productCodeing" id="productCodeing" class="form-control" style="direction: rtl" placeholder="کدینگ (اختیاری)" oninvalid="this.setCustomValidity('شماره گذاری کالا ها')" oninput="setCustomValidity('')">
+                <input type="number" name="productCodeing" id="productCodeing" class="form-control" style="direction: rtl" required="required" placeholder="کدینگ" oninvalid="this.setCustomValidity('شماره گذاری کالا ها')" oninput="setCustomValidity('')">
                 <input type="text" name="productName" id="productName" class="form-control" style="direction: rtl" placeholder="نام کالا" required="required" oninvalid="this.setCustomValidity('نام کامل کالا را وارد کنید')" oninput="setCustomValidity('')">
                 <input type="text" name="productPlace" id="productPlace" class="form-control" style="direction: rtl" placeholder="محل استقرار کالا" required="required" oninvalid="this.setCustomValidity('محل قرارگیری کالا را وارد کنید')" oninput="setCustomValidity('')">
                 <input type="text" name="productUnit" id="productUnit" class="form-control" style="direction: rtl" placeholder="واحد سنجش کالا (به طور مثال : عدد)" required="required" oninvalid="this.setCustomValidity('واحد سنجش کالا را وارد کنید')" oninput="setCustomValidity('')">
