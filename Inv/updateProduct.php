@@ -1,4 +1,7 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 session_start();
 require_once '../Scripts/dbConnect.php';
 require_once '../Scripts/functions.php';
@@ -14,22 +17,41 @@ if (!isset($_SESSION['logged_in'])) {
         $searchProductSql = $conn->prepare("SELECT * FROM `products` WHERE p_codeing = :search");
         $searchProductSql->execute(['search' => $codeing]);
 
+
         // Recive Select Results
         $searchProductSqlResult = $searchProductSql->fetchAll(PDO::FETCH_ASSOC);
 
-        //If That Codeing Is Exist , Then -> Codeing Input Become Disabled.
-        if ($searchProductSql->rowCount() > 0) {
-                echo "<script>  
-                            window.onload = function() {  
-                                                        const inputElement = document.getElementById('myInput');  
-                                                        inputElement.disabled = true;
-                                                        };  
-                      </script>";
-
-        } else {
+        if ($searchProductSql->rowCount() == 0) {
             //Set Error Message Alert Var.
             $dosntExist = 1;
         }
+    } else if (isset($_POST['updateP'])) { // IF This Var Set Then : Update DB With New Info In Blow.
+
+        $codeingg = htmlspecialchars($_POST['codeing']);
+        $pName = htmlspecialchars($_POST['pName']);
+        $pPlace = htmlspecialchars($_POST['pPlace']);
+        $pUnit = htmlspecialchars($_POST['pUnit']);
+        $pQty = htmlspecialchars($_POST['pQty']);
+        $pDesc = htmlspecialchars($_POST['pDesc']);
+
+
+
+        $sqlUpdate = "UPDATE products SET p_name = :pname, p_place = :place, p_unit = :unit, p_qty = :qty, p_description = :pdesc WHERE products.p_codeing = :codeing; ";
+
+        // Prepare And Run The Sql Update
+        $stmt = $conn->prepare($sqlUpdate);
+        $stmt->bindParam(':pname', $pName);
+        $stmt->bindParam(':place', $pPlace);
+        $stmt->bindParam(':unit', $pUnit);
+        $stmt->bindParam(':qty', $pQty);
+        $stmt->bindParam(':pdesc', $pDesc);
+        $stmt->bindParam(':codeing', $codeingg);
+
+        $stmt->execute();
+        $conn = null;
+        if (isset($stmt)) {
+            $updateSuccess = 1;
+        };
     }
 ?>
     <!DOCTYPE html>
@@ -45,7 +67,7 @@ if (!isset($_SESSION['logged_in'])) {
         <link rel="stylesheet" href="../Assets/Css/bootstrap.rtl.min.css">
         <link rel="stylesheet" href="../Assets/Css/Style.css">
         <link rel="stylesheet" href="../Assets/Css/all.css">
-        <link rel="stylesheet" href="../Assets/Css/sweetalert2.min.css"> 
+        <link rel="stylesheet" href="../Assets/Css/sweetalert2.min.css">
         <script src="../Assets/Js/sweetalert2.js"></script>
     </head>
 
@@ -65,7 +87,7 @@ if (!isset($_SESSION['logged_in'])) {
                                                         foreach ($searchProductSqlResult as $result) {
                                                             echo $result['p_codeing'];
                                                         }
-                                                    } ?>" required name="codeing" id="myInput" oninput="checkValue()" class="form-control" style="direction: rtl" placeholder="کدینگ" oninvalid="this.setCustomValidity('شماره گذاری کالا ها')" oninput="setCustomValidity('')">
+                                                    } ?>" required="required" name="codeing" id="myInput" oninput="checkValue()" class="form-control" style="direction: rtl" placeholder="کدینگ" oninvalid="this.setCustomValidity('شماره گذاری کالا ها')" oninput="setCustomValidity('')">
 
                         <input type="text" value="<?php if (isset($searchProductSqlResult)) {
                                                         foreach ($searchProductSqlResult as $result) {
@@ -96,9 +118,9 @@ if (!isset($_SESSION['logged_in'])) {
                         <button type="submit" name="updateP" class="btn btn-primary">بروزرسانی کالا</button>
                     </form>
                     <?php
-                        // Errot Alert , Codeing Dosn't Exist.
-                        if(isset($dosntExist)){
-                            echo '<script type="text/javascript">  
+                    // Errot Alert , Codeing Dosn't Exist.
+                    if (isset($dosntExist)) {
+                        echo '<script type="text/javascript">  
                             Swal.fire
                                     ({    
                                         text: "این کدینگ وجود ندارد",  
@@ -106,8 +128,20 @@ if (!isset($_SESSION['logged_in'])) {
                                         confirmButtonText: "تأیید"  
                                     });
                             </script>';
-                            
-                        }
+                    } else if (isset($updateSuccess)) {
+                        echo '<script type="text/javascript">  
+                            Swal.fire
+                                    ({    
+                                        text: "بروزرسانی با موفقیت انجام شد",  
+                                        icon: "success", 
+                                        confirmButtonText: "تأیید"  
+                                    });
+                            </script>';
+                    } else if (isset($_POST['searchP'])) { // readOnly Codeing Input When User Search.
+                        echo "<script>  
+                                document.getElementById('myInput').readOnly = true;  
+                              </script>";
+                    }
                     ?>
                 </div>
             </section>
