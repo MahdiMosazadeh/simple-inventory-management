@@ -28,6 +28,7 @@ if (!isset($_SESSION['logged_in'])) {
         //If Exist Then : Execute Update Sql.
         if ($checkCodeSql->rowCount() > 0) {
             try {
+                // update product table qty col.
                 $inSql = "UPDATE products SET p_qty = p_qty + :qty WHERE p_codeing = :code ";
 
                 $inSqlExe = $conn->prepare($inSql);
@@ -35,7 +36,16 @@ if (!isset($_SESSION['logged_in'])) {
                 $inSqlExe->bindParam('code', $inCodeing);
                 $inSqlExe->execute();
 
-                $inLogSql = "INSERT INTO `inputoutput` (`id`, `in_out`, `date`, `time`, `qty`, `p_codeing`) VALUES (NULL, '1', '2024-08-01', '23:57:31', '4', '13');";
+                // Insert in inputoutput table.
+                $inLogSql = "INSERT INTO `inputoutput` (`id`, `in_out`, `date`, `time`, `qty`, `p_codeing`) VALUES (NULL, :inOutType, :inDate, :inTime, :inQty, :inProductCodeing);";
+
+                $inLogSqlExe = $conn->prepare($inLogSql);
+                $inLogSqlExe->bindParam('inOutType', $in_out);
+                $inLogSqlExe->bindParam('inDate', $inDate);
+                $inLogSqlExe->bindParam('inTime', $inTime);
+                $inLogSqlExe->bindParam('inQty', $inQty);
+                $inLogSqlExe->bindParam('inProductCodeing', $inCodeing);
+                $inLogSqlExe->execute();
 
                 //Set Success Update Message Var.
                 $updateSuccess = 1;
