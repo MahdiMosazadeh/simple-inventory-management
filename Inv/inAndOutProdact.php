@@ -9,6 +9,7 @@ require_once '../Scripts/jdf.php';
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
+    //In Product
     if (isset($_POST['inBtn'])) {
         date_default_timezone_set('Asia/Tehran');
 
@@ -55,8 +56,65 @@ if (!isset($_SESSION['logged_in'])) {
         } else {
             $notExist = 1;
         }
-    } else if (isset($_POST['outBtn'])) {
-        echo "out";
+    }
+    //Out Product
+    else if (isset($_POST['outBtn'])) {
+        date_default_timezone_set('Asia/Tehran');
+
+        $outCodeing = cleanUpInputs($_POST['outCodeing']);
+        $outQty = cleanUpInputs($_POST['outQty']);
+        $in_out = 2;
+        $outDate = date('Y-m-d');
+        $outTime = date('H:i:s');
+        // تبدیل تاریخ میلادی به شمسی  
+        list($year, $month, $day) = explode('-', $outDate);
+        $shamsiDate = jdate('Y-m-d', mktime(0, 0, 0, $month, $day, $year));
+
+        //Select Product By p_codeing And Check Exist Or Not.
+        $checkCodeSql = $conn->prepare("SELECT * FROM products WHERE p_codeing= :code");
+        $checkCodeSql->bindParam(':code', $outCodeing);
+        $checkCodeSql->execute();
+        foreach ($checkCodeSql as $row) :
+            $currentQty = $row['p_qty'];
+        endforeach;
+        //If Exist Then : Execute Update Sql.
+        if ($checkCodeSql->rowCount() > 0) {
+            if($currentQty - $outQty < 0)
+            {
+                $blowZero = 1;
+            }
+            else
+            {
+                try {
+                    // update product table qty col.
+                    $outSql = "UPDATE products SET p_qty = p_qty - :qty WHERE p_codeing = :code ";
+    
+                    $outSqlExe = $conn->prepare($outSql);
+                    $outSqlExe->bindParam('qty', $outQty);
+                    $outSqlExe->bindParam('code', $outCodeing);
+                    $outSqlExe->execute();
+    
+                    // Insert in inputoutput table.
+                    $outLogSql = "INSERT INTO `inputoutput` (`id`, `in_out`, `date`, `time`, `qty`, `p_codeing`) VALUES (NULL, :inOutType, :inDate, :inTime, :inQty, :inProductCodeing);";
+    
+                    $outLogSqlExe = $conn->prepare($outLogSql);
+                    $outLogSqlExe->bindParam('inOutType', $in_out);
+                    $outLogSqlExe->bindParam('inDate', $outDate);
+                    $outLogSqlExe->bindParam('inTime', $outTime);
+                    $outLogSqlExe->bindParam('inQty', $outQty);
+                    $outLogSqlExe->bindParam('inProductCodeing', $outCodeing);
+                    $outLogSqlExe->execute();
+    
+                    //Set Success Update Message Var.
+                    $updateSuccessOut = 1;
+                } catch (PDOException $error) {
+                    echo $error->getMessage();
+                }
+            }
+            
+        } else {
+            $notExist = 1;
+        }
     }
 ?>
     <!DOCTYPE html>
@@ -103,8 +161,26 @@ if (!isset($_SESSION['logged_in'])) {
                         echo '<script type="text/javascript">  
                                 Swal.fire
                                         ({    
-                                            text: "افزایش یافت",  
+                                            text: "ورود کالا ثبت شد",  
                                             icon: "success", 
+                                            confirmButtonText: "تأیید"  
+                                        });
+                                </script>';
+                    } else if (isset($updateSuccessOut)) {
+                        echo '<script type="text/javascript">  
+                                Swal.fire
+                                        ({    
+                                            text: "خروج کالا ثبت شد",  
+                                            icon: "success", 
+                                            confirmButtonText: "تأیید"  
+                                        });
+                                </script>';
+                    } else if (isset($blowZero)) {
+                        echo '<script type="text/javascript">  
+                                Swal.fire
+                                        ({    
+                                            text: "بیش از موجودی شماست ، مقدار کالا منفی میشود.",  
+                                            icon: "error", 
                                             confirmButtonText: "تأیید"  
                                         });
                                 </script>';
