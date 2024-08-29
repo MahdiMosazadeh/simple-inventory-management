@@ -21,7 +21,7 @@ if (isset($_POST['loginBtn']))
     if ($sql -> rowCount() > 0)
     {
         $_SESSION['logged_in']= $username;
-        redirect('./login/system');
+        redirect('./Login/system');
     }
     else
     {
