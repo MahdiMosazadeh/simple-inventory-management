@@ -7,7 +7,7 @@ require_once '../Scripts/jdf.php';
 //Check the User Session Login , If Session Doesn't Set
 //Then Redirect To The Login Page And If Login Is Set Show The Page
 if (!isset($_SESSION['logged_in'])) {
-    redirect('../index.php');
+    redirect('../');
 } else {
     if (isset($_POST['inBtn'])) {
         date_default_timezone_set('Asia/Tehran');

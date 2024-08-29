@@ -7,7 +7,7 @@
     //Then Redirect To The Login Page And If Login Is Set Show The Page
     if(!isset($_SESSION['logged_in']))
     {
-        redirect('../index.php');
+        redirect('../');
     }
     //Set The System Type And Here We Can Connect DB And Set The User Type.
     else

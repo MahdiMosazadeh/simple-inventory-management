@@ -9,7 +9,7 @@ require_once '../Scripts/functions.php';
 //Check the User Session Login , If Session Doesn't Set
 //Then Redirect To The Login Page And If Login Is Set Show The Page
 if (!isset($_SESSION['logged_in'])) {
-    redirect('../index.php');
+    redirect('../');
 } else {
     if (isset($_POST['searchP'])) { //IF User Click Search , Then -> Fetch That Product Row.
         $codeing = htmlspecialchars($_POST['codeing']);

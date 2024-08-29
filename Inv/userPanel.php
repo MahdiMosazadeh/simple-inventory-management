@@ -7,7 +7,7 @@
     //Then Redirect To The Login Page And If Login Is Set Show The Page
     if(!isset($_SESSION['logged_in']))
     {
-        redirect('../index.php');
+        redirect('../');
     }
     else
     {
@@ -68,7 +68,9 @@
                                         <a target="user-panel-frame" class="nav-link" href="aboutApp.php"><i class="fa-solid fa-address-card"></i> درباره داده فراز</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="<?php $_SESSION['logged_in']= null; echo "../index"; ?>"><i class="fa-solid fa-right-from-bracket"></i> خروج</a>
+                                        <button onclick="location.href='exit.php';" style="background-color: #fff;border: 0px;" class="nav-link">  
+                                        <i class="fa-solid fa-right-from-bracket"></i> خروج
+                                        </button> 
                                     </li>
                                 </ul>
                             </div>
