@@ -21,18 +21,12 @@ if (isset($_POST['loginBtn']))
     if ($sql -> rowCount() > 0)
     {
         $_SESSION['logged_in']= $username;
-        redirect('./login/login.php');
+        redirect('./login/system');
     }
     else
     {
         $incurectUserPass = 1;
     }
-}
-
-// Check The Exit Variable And If Its Set Then Close The Login Session.
-if(isset($_GET['exit']))
-{
-    $_SESSION['logged_in']= null;
 }
 ?>
 <!DOCTYPE html>
