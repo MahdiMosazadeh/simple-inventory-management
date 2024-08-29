@@ -34,7 +34,7 @@
                         ناموجود 
                     </h3>
                     <?php
-                        $searchSqlNothing = $conn -> query('SELECT * FROM products WHERE p_qty=0');
+                        $searchSqlNothing = $conn -> query('SELECT * FROM products WHERE p_qty=0 or p_qty < 0');
                         $resultNothing = $searchSqlNothing -> fetchAll(PDO::FETCH_ASSOC);
                         $num = 1;
                     ?>
