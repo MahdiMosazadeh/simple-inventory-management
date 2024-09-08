@@ -56,6 +56,7 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">استقرار</th>
                                     <th scope="col">واحد</th>
                                     <th scope="col">تعداد</th>
+                                    <th scope="col">توضیحات</th>
                                     <th scope="col" style="color: red;">حذف</th>
                                     <th scope="col" style="color: blue;">اصلاح</th>
                                 </tr>
@@ -73,6 +74,7 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_place']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
+                                        <td><?php echo htmlspecialchars($row['p_description']) ?></td>
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
                                         <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
 
@@ -98,6 +100,7 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">استقرار</th>
                                     <th scope="col">واحد</th>
                                     <th scope="col">تعداد</th>
+                                    <th scope="col">توضیحات</th>
                                     <th scope="col" style="color: red;">حذف</th>
                                     <th scope="col" style="color: blue;">اصلاح</th>
                                 </tr>
@@ -115,6 +118,7 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_place']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
+                                        <td><?php echo htmlspecialchars($row['p_description']) ?></td>
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
                                         <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                     </tr>
@@ -143,6 +147,7 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">استقرار</th>
                                     <th scope="col">واحد</th>
                                     <th scope="col">تعداد</th>
+                                    <th scope="col">توضیحات</th>
                                     <th scope="col" style="color: red;">حذف</th>
                                     <th scope="col" style="color: blue;">اصلاح</th>
                                 </tr>
@@ -160,6 +165,7 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_place']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
+                                        <td><?php echo htmlspecialchars($row['p_description']) ?></td>
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
                                         <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                     </tr>
