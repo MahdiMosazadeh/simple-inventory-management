@@ -8,6 +8,7 @@ require_once '../Scripts/functions.php';
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
+
     //delete product by id
     if (isset($_GET['id'])) {
         $id = cleanUpInputs($_GET['id']);
@@ -30,6 +31,7 @@ if (!isset($_SESSION['logged_in'])) {
         <link rel="stylesheet" href="../Assets/Css/bootstrap.rtl.min.css">
         <link rel="stylesheet" href="../Assets/Css/Style.css">
         <link rel="stylesheet" href="../Assets/Css/all.css">
+        <script src="../Assets/Js/sweetalert2.js"></script>
     </head>
 
     <body dir="rtl">
@@ -114,7 +116,7 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
-                                        <td><a style="color: black;" href="#"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
+                                        <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -159,7 +161,7 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
-                                        <td><a style="color: black;" href="#"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
+                                        <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -169,6 +171,19 @@ if (!isset($_SESSION['logged_in'])) {
                 </div>
             </section>
         </main>
+        <?php
+            if (isset($_SESSION['updateSuccess'])) {
+                echo '<script type="text/javascript">  
+                    Swal.fire
+                            ({    
+                                text: "بروزرسانی با موفقیت انجام شد",  
+                                icon: "success", 
+                                confirmButtonText: "تأیید"  
+                            });
+                    </script>';
+                    $_SESSION['updateSuccess'] = null;
+            }
+        ?>
         <script src="../Assets/Js/bootstrap.bundle.min.js"></script>
         <script src="../Assets/Js/bootstrap.min.js"></script>
     </body>
