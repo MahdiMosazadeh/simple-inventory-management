@@ -20,6 +20,11 @@ html,body
 {
     color: orange;
 }
+#del-icon:hover
+{
+    margin-right: 15px;
+    color: red;
+}
 /*index.php Styles*/
 
 .select-system
