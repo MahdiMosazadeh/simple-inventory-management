@@ -48,10 +48,21 @@ if (!isset($_SESSION['logged_in'])) {
         $stmt->bindParam(':codeing', $codeingg);
 
         $stmt->execute();
-        $conn = null;
+        //$conn = null;
+            if(isset($_GET['id'])) { $_SESSION['updateSuccess'] = 1; redirect('statisticsProduct.php'); } //if user edit product with redirect other pages , then after update product he back the first page
         if (isset($stmt)) {
             $updateSuccess = 1;
         };
+    } else if(isset($_GET['id']))// if user redirect by id from other pages
+    {
+        $id = htmlspecialchars($_GET['id']);
+
+        $idProductSql = $conn->prepare("SELECT * FROM `products` WHERE id = :id");
+        $idProductSql->execute(['id' => $id]);
+
+
+        // Recive Select Results
+        $idProductSqlResult = $idProductSql->fetchAll(PDO::FETCH_ASSOC);
     }
 ?>
     <!DOCTYPE html>
@@ -79,12 +90,17 @@ if (!isset($_SESSION['logged_in'])) {
                         <h3 class="blue-color">
                             اصلاح کالای تعریف شده
                         </h3>
-                        <p>
+                        <p style="<?php if(isset($_GET['id'])) {echo 'display:none;';} ?>">
                             ابتدا کدینگ کالا را وارد کرده و دکمه "جستجوی کالا" را بزنید سپس مواردی که قصد دارید اصلاح کنید را بروزرسانی کرده و دکمه "بروزرسانی کالا" را بزنید
                         </p>
                         <!-- If That Codeing Is Exist , Then : Set The Value With That Product Row Informations. -->
                         <input type="number" value="<?php if (isset($searchProductSqlResult)) {
                                                         foreach ($searchProductSqlResult as $result) {
+                                                            echo $result['p_codeing'];
+                                                        }
+                                                    }
+                                                    if (isset($idProductSqlResult)) {
+                                                        foreach ($idProductSqlResult as $result) {
                                                             echo $result['p_codeing'];
                                                         }
                                                     } ?>" required="required" name="codeing" id="myInput" oninput="checkValue()" class="form-control" style="direction: rtl" placeholder="کدینگ" oninvalid="this.setCustomValidity('شماره گذاری کالا ها')" oninput="setCustomValidity('')">
@@ -93,9 +109,19 @@ if (!isset($_SESSION['logged_in'])) {
                                                         foreach ($searchProductSqlResult as $result) {
                                                             echo $result['p_name'];
                                                         }
+                                                    }
+                                                    if (isset($idProductSqlResult)) {
+                                                        foreach ($idProductSqlResult as $result) {
+                                                            echo $result['p_name'];
+                                                        }
                                                     } ?>" name="pName" id="" class="form-control" style="direction: rtl" placeholder="نام کالا" oninvalid="this.setCustomValidity('نام کامل کالا را وارد کنید')" oninput="setCustomValidity('')">
                         <input type="text" value="<?php if (isset($searchProductSqlResult)) {
                                                         foreach ($searchProductSqlResult as $result) {
+                                                            echo $result['p_place'];
+                                                        }
+                                                    }
+                                                    if (isset($idProductSqlResult)) {
+                                                        foreach ($idProductSqlResult as $result) {
                                                             echo $result['p_place'];
                                                         }
                                                     } ?>" name="pPlace" id="" class="form-control" style="direction: rtl" placeholder="محل استقرار کالا" oninvalid="this.setCustomValidity('محل قرارگیری کالا را وارد کنید')" oninput="setCustomValidity('')">
@@ -103,9 +129,19 @@ if (!isset($_SESSION['logged_in'])) {
                                                         foreach ($searchProductSqlResult as $result) {
                                                             echo $result['p_unit'];
                                                         }
+                                                    }
+                                                    if (isset($idProductSqlResult)) {
+                                                        foreach ($idProductSqlResult as $result) {
+                                                            echo $result['p_unit'];
+                                                        }
                                                     } ?>" name="pUnit" id="" class="form-control" style="direction: rtl" placeholder="واحد سنجش کالا (به طور مثال : عدد)" oninvalid="this.setCustomValidity('واحد سنجش کالا را وارد کنید')" oninput="setCustomValidity('')">
                         <input type="number" value="<?php if (isset($searchProductSqlResult)) {
                                                         foreach ($searchProductSqlResult as $result) {
+                                                            echo $result['p_qty'];
+                                                        }
+                                                    }
+                                                    if (isset($idProductSqlResult)) {
+                                                        foreach ($idProductSqlResult as $result) {
                                                             echo $result['p_qty'];
                                                         }
                                                     } ?>" name="pQty" id="" class="form-control" min="0" max="10000000" step="1" style="direction: rtl" placeholder="موجودی اولیه" oninvalid="this.setCustomValidity('نمیتواند اعشار یا خالی باشد')" oninput="setCustomValidity('')">
@@ -113,8 +149,13 @@ if (!isset($_SESSION['logged_in'])) {
                                                         foreach ($searchProductSqlResult as $result) {
                                                             echo $result['p_description'];
                                                         }
+                                                    }
+                                                    if (isset($idProductSqlResult)) {
+                                                        foreach ($idProductSqlResult as $result) {
+                                                            echo $result['p_description'];
+                                                        }
                                                     } ?>" name="pDesc" id="" class="form-control" style="direction: rtl" placeholder="توضیحات" oninvalid="this.setCustomValidity('توضیحات')" oninput="setCustomValidity('')">
-                        <button type="submit" name="searchP" class="btn btn-dark">جستجوی کالا</button>
+                        <button type="submit" style="<?php if(isset($_GET['id'])) {echo 'display:none;';} ?>" name="searchP" class="btn btn-dark">جستجوی کالا</button>
                         <button type="submit" name="updateP" class="btn btn-primary">بروزرسانی کالا</button>
                     </form>
                     <?php
@@ -137,7 +178,7 @@ if (!isset($_SESSION['logged_in'])) {
                                         confirmButtonText: "تأیید"  
                                     });
                             </script>';
-                    } else if (isset($_POST['searchP'])) { // readOnly Codeing Input When User Search.
+                    } else if (isset($_POST['searchP']) or isset($_GET['id'])) { // readOnly Codeing Input When User Search.
                         echo "<script>  
                                 document.getElementById('myInput').readOnly = true;  
                               </script>";
