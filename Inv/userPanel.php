@@ -18,7 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="../Assets/Images/finger.png" />
-    <title>پنل مدیریت کاربر</title>
+    <title>پنل مدیریت انبار</title>
 
     <link rel="stylesheet" href="../Assets/Css/fonts.css">
     <link rel="stylesheet" href="../Assets/Css/bootstrap.rtl.min.css">
