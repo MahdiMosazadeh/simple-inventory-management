@@ -8,6 +8,20 @@ require_once '../Scripts/functions.php';
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
+    // select and fetch zero qty products.
+    $sqlZeroQty = "SELECT COUNT(*) FROM `products` WHERE p_qty=0;";
+    $stmt = $conn -> query($sqlZeroQty);
+    $zeroQtyCount = $stmt -> fetchColumn();
+
+    // select and fetch less than 5 qty products.
+    $sqlLessQty = "SELECT COUNT(*) FROM `products` WHERE p_qty <= 5;";
+    $stmtLess = $conn -> query($sqlLessQty);
+    $lessQtyCount = $stmtLess -> fetchColumn();
+
+    // select all qty products.
+    $sqlAllQty = "SELECT COUNT(*) FROM `products`";
+    $stmtAll = $conn -> query($sqlAllQty);
+    $AllQtyCount = $stmtAll -> fetchColumn();
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -36,19 +50,19 @@ if (!isset($_SESSION['logged_in'])) {
           <div class="card">  
             <div class="card-body" style="background-color: #ff9999;">  
               <h5 class="card-title">تعداد کالا ناموجود</h5>  
-              <p class="card-text" style="font-family: iranFamily;">5</p>  
+              <p class="card-text" style="font-family: iranFamily;"><?php echo $zeroQtyCount; ?></p>  
             </div>  
           </div>  
           <div class="card">  
             <div class="card-body" style="background-color: #ffcc99;">  
               <h5 class="card-title">تعداد کالا کمتر از 5 عدد</h5>  
-              <p class="card-text" style="font-family: iranFamily;">32</p>  
+              <p class="card-text" style="font-family: iranFamily;"><?php echo $lessQtyCount; ?></p>  
             </div>  
           </div>  
           <div class="card">  
             <div class="card-body" style="background-color: #99ff99;">  
               <h5 class="card-title">تعداد کل موجودی کالا</h5>  
-              <p class="card-text" style="font-family: iranFamily;">743</p>  
+              <p class="card-text" style="font-family: iranFamily;"><?php echo $AllQtyCount; ?></p>  
             </div>  
           </div>  
         </div>  
