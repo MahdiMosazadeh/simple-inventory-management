@@ -22,6 +22,7 @@ if (!isset($_SESSION['logged_in'])) {
     $sqlAllQty = "SELECT COUNT(*) FROM `products`";
     $stmtAll = $conn -> query($sqlAllQty);
     $AllQtyCount = $stmtAll -> fetchColumn();
+    $conn = null;
 ?>
     <!DOCTYPE html>
     <html lang="en">
