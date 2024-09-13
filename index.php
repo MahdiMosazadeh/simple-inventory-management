@@ -9,6 +9,7 @@ if (isset($_POST['loginBtn']))
     //filter user and pass (inputs) with function cleanUpInputs.
     $userName = cleanUpInputs($_POST['userName']);
     $passWord = cleanUpInputs($_POST['passWord']);
+    $passWord = md5(md5(md5($passWord)));
     
     //Connect To DataBase With PDO And Select User && Pass And Close The Connection.
     $sql = $conn->prepare("SELECT * FROM users WHERE username= :user and password= :pass");
