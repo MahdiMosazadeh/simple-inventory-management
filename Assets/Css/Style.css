@@ -164,7 +164,7 @@ html,body
 /*searchProdact Styles*/
 @media screen and (max-width: 500px)
 {
-    .searchProduct ,.searchProduct input,.searchProduct button,.searchProduct table
+    .searchProduct ,.searchProduct input,.searchProduct button,.searchProduct table,#select
     {
         font-size: 0.7rem;
     }
@@ -187,7 +187,12 @@ html,body
 {
     font-family: 'iranFamily';
 }
-
+#select
+{
+    height: 40px;
+    max-width: 250px;
+    margin-top: 10px;
+}
 /* statisticsProduct Style*/
 
 @media screen and (max-width: 500px)
@@ -241,6 +246,3 @@ html,body
     
     margin-bottom: 15px;
 }
-
-/* Picture Popup */ 
-
