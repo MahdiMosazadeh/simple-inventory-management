@@ -196,6 +196,10 @@ html,body
     {
         font-size: 0.7rem;
     }
+    .table th,.table td
+    {
+        padding:8px 1px;
+    }
 }
 .statisticsProduct ,.statisticsProduct input,.statisticsProduct button,.statisticsProduct table
 {
@@ -237,3 +241,6 @@ html,body
     
     margin-bottom: 15px;
 }
+
+/* Picture Popup */ 
+
