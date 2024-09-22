@@ -126,7 +126,7 @@
                 <input type="text" name="productUnit" id="productUnit" class="form-control" style="direction: rtl" placeholder="واحد سنجش کالا (به طور مثال : عدد)" required="required" oninvalid="this.setCustomValidity('واحد سنجش کالا را وارد کنید')" oninput="setCustomValidity('')">
                 <input type="number" name="productQty" id="productQty" class="form-control" min="0" max="10000000" step="1" style="direction: rtl" placeholder="موجودی اولیه" required="required" oninvalid="this.setCustomValidity('نمیتواند اعشار یا خالی باشد')" oninput="setCustomValidity('')">
                 <input type="text" name="productDescription" id="productDescription" class="form-control" style="direction: rtl" placeholder="توضیحات (اختیاری)" oninvalid="this.setCustomValidity('توضیحات')" oninput="setCustomValidity('')">
-                <input type="file" name="productPic" id="productPic" class="form-control" placeholder="تصویر محصول" value="تصویر محصول">
+                <!-- <input type="file" name="productPic" id="productPic" class="form-control" placeholder="تصویر محصول" value="تصویر محصول"> -->
                 <button type="submit" name="newProductBtn" id="newProductBtn" class="btn btn-primary">ثبت کالای جدید</button>
                 </form>
             </div>

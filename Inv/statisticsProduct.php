@@ -57,7 +57,7 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">واحد</th>
                                     <th scope="col">تعداد</th>
                                     <th scope="col">توضیحات</th>
-                                    <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
+                                    <!-- <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th> -->
                                     <th scope="col" style="color: red;width: 20px;">حذف</th>
                                     <th scope="col" style="color: blue;width: 20px;">اصلاح</th>
                                 </tr>
@@ -76,7 +76,7 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_description']) ?></td>
-                                        <td><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></td>
+                                        <!-- <td><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></td> -->
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
                                         <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                     </tr>
@@ -102,7 +102,7 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">واحد</th>
                                     <th scope="col">تعداد</th>
                                     <th scope="col">توضیحات</th>
-                                    <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
+                                    <!-- <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th> -->
                                     <th scope="col" style="color: red;width: 20px;">حذف</th>
                                     <th scope="col" style="color: blue;width: 20px;">اصلاح</th>
                                 </tr>
@@ -121,7 +121,7 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_description']) ?></td>
-                                        <td><a style="color: black;" href="#"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td>
+                                        <!-- <td><a style="color: black;" href="#"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td> -->
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
                                         <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                     </tr>
@@ -151,7 +151,7 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">واحد</th>
                                     <th scope="col">تعداد</th>
                                     <th scope="col">توضیحات</th>
-                                    <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
+                                    <!-- <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th> -->
                                     <th scope="col" style="color: red;width: 20px;">حذف</th>
                                     <th scope="col" style="color: blue;width: 20px;">اصلاح</th>
                                 </tr>
@@ -170,7 +170,7 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_description']) ?></td>
-                                        <td><a style="color: black;" href="#"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td>
+                                        <!-- <td><a style="color: black;" href="#"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td> -->
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
                                         <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                     </tr>

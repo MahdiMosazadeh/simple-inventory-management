@@ -205,6 +205,10 @@ html,body
     {
         padding:8px 1px;
     }
+    .phoneNumber ,.phoneNumber input,.phoneNumber button,.phoneNumber table
+    {
+        font-size: 0.7rem;
+    }
 }
 .statisticsProduct ,.statisticsProduct input,.statisticsProduct button,.statisticsProduct table
 {
@@ -245,4 +249,8 @@ html,body
 {
     
     margin-bottom: 15px;
+}
+.phoneNumber input
+{
+    margin-top: 10px;
 }

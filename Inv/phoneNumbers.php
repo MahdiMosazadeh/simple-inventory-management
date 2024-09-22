@@ -38,6 +38,14 @@
                     $errorMessage = 1;
             }  
         }
+        if(isset($_GET['id']))
+        {
+            $id = cleanUpInputs($_GET['id']);
+
+            $sql = $conn->prepare("DELETE FROM `persons` WHERE `persons`.`id` = ?");
+            $sql->bindParam(1, $id);
+            $sql->execute();
+        }
 ?>
 <!DOCTYPE html>
 <html lang="fa">
@@ -57,8 +65,8 @@
 <body dir="rtl">
     <main class="container updateProduct">
         <section class="row phoneNumber">
-
-            <div class="col col-12 col-sm-12 col-md-4">
+            <div class="row">
+            <div class="col">
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="form-control">
                     <h3 class="blue-color">
                         شخص جدید
@@ -96,7 +104,9 @@
                     <button type="submit" name="persBtn" id="persBtn" class="btn btn-primary">ثبت شخص</button>
                 </form>
             </div>
+            </div>
 
+            <div class="row">
             <div class="col">
                 <form action="" class="form-control" method="post">
                 <h3 class="blue-color">
@@ -105,7 +115,6 @@
                 <?php
                         $searchSqlNothing = $conn -> query('SELECT * FROM persons');
                         $resultPers = $searchSqlNothing -> fetchAll(PDO::FETCH_ASSOC);
-                        $conn = null;
                         $num = 1;
                     ?>
                 <table class="table">
@@ -116,6 +125,7 @@
                             <th scope="col">نوع</th>
                             <th scope="col">آدرس</th>
                             <th scope="col">شماره</th>
+                            <th scope="col">حذف</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -126,13 +136,14 @@
                                     <td><?php echo htmlspecialchars($row['persType']) ?></td>
                                     <td><?php echo htmlspecialchars($row['persAddress']) ?></td>
                                     <td><?php echo htmlspecialchars($row['persNumber']) ?></td>
+                                    <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
                                 </tr>
                             <?php endforeach; ?>
                     </tbody>
                 </table>
                 </form>
             </div>
-
+            </div>
         </section>
     </main>
 <script src="../Assets/Js/bootstrap.bundle.min.js"></script>
