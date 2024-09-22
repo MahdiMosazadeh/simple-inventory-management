@@ -1,0 +1,20 @@
+@font-face {
+    font-family: "iranFamily";
+    src: url(../Fonts/IranFamily/ttf/IRAN.ttf);
+    font-style: normal;
+}
+@font-face {
+    font-family: "iranFamily";
+    src: url(../Fonts/IranFamily/ttf/IRANBold.ttf);
+    font-weight: bold;
+}
+@font-face {
+    font-family: "iranFamily";
+    src: url(../Fonts/IranFamily/ttf/IRANBlack.ttf);
+    font-weight: 900;
+}
+
+h1,h2,h3,h4,h5,a,p,span
+{
+    font-family: iranFamily !important
+}
