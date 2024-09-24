@@ -37,7 +37,7 @@ if (!isset($_SESSION['logged_in'])) {
         <link rel="stylesheet" href="../Assets/Css/all.css">
         <link rel="stylesheet" href="../Assets/Css/sweetalert2.min.css">
         <script src="../Assets/Js/sweetalert2.js"></script>
-        <script src="../Assets/Js/Chart.min.js"></script>
+
     </head>
 
     <body style="font-family: iranFamily;">
@@ -46,7 +46,7 @@ if (!isset($_SESSION['logged_in'])) {
 
         <div class="container" style="display: flex; justify-content: center; flex-direction: column; align-items: center;">  
 
-    <div class="row" style="width:100%; max-width:800px;margin-bottom: 15px;">  
+    <div class="row" style="width:100%; max-width:1200px;margin-bottom: 15px;">  
         <div class="card-group" style="text-align: center;">  
           <div class="card">  
             <div class="card-body" style="background-color: #ff9999;">  
@@ -67,41 +67,66 @@ if (!isset($_SESSION['logged_in'])) {
             </div>  
           </div>  
         </div>  
-    </div>  
 
-    <div class="row" style="width:100%; max-width:800px;">  
-        <canvas id="myChart" style="width:100%; max-width:800px;"></canvas>  
-        <script>  
-            const xValues = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];  
 
-            new Chart("myChart", {  
-                type: "line",  
-                data: {  
-                    labels: xValues,  
-                    datasets: [{  
-                            data: [20, 40, 30, 70, 10, 5, 100, 40, 25, 32],  
-                            borderColor: "red",  
-                            fill: false  
-                        },  
-                        {  
-                            data: [0, 70, 30, 200, 125, 75, 45, 140, 400, 100],  
-                            borderColor: "blue",  
-                            fill: false  
-                        }  
-                    ]  
-                },  
-                options: {  
-                    legend: {  
-                        display: false  
-                    },  
-                    title: {  
-                        display: true,  
-                        text: "1403 ورود / خروج"  
-                    }  
-                }  
-            });  
-        </script>  
-    </div>  
+
+
+        <div class="row" style="width:100%; max-width:1200px;margin-bottom: 15px;margin-right:0px;text-align: right;">
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="form-control" style="margin-top: 10px;">
+
+                <label for="year">سال</label>
+                <select class="form-select" style="display: inline-block;" name="year" id="year" required>
+                    <option value="allYear" selected>تمام سال ها</option>
+                    <option value="1404">1405</option>
+                    <option value="1404">1404</option>
+                    <option value="1404">1403</option>
+                </select>
+
+                <label for="month">ماه</label>
+                <select class="form-select" style="display: inline-block;" name="month" id="month" required>
+                    <option value="allMonth" selected>تمام ماه ها</option>
+                    <option value="01">فروردین</option>
+                    <option value="02">اردیبهشت</option>
+                    <option value="03">خرداد</option>
+                    <option value="04">تیر</option>
+                    <option value="05">مرداد</option>
+                    <option value="06">شهریور</option>
+                    <option value="07">مهر</option>
+                    <option value="08">آبان</option>
+                    <option value="09">آذر</option>
+                    <option value="10">دی</option>
+                    <option value="11">بهمن</option>
+                    <option value="12">اسفند</option>
+                </select>
+                
+                <label for="day">روز</label>
+                <select class="form-select" style="display: inline-block;" name="day" id="day" required>
+                    <option value="allDay" selected>تمام روز ها</option>
+                    <?php
+                        $i = 01;
+                        while($i <= 31)
+                        {
+                            if($i < 10)
+                            {
+                                (int)$i = 0 . $i;
+                                echo "<option value=".$i.">".$i."</option>";
+                                $i++;
+                            }
+                            else
+                            {
+                                echo "<option value=".$i.">".$i."</option>";
+                                $i++;
+                            }
+                        }
+                    ?>
+
+                </select>
+
+                <button class="btn btn-primary" style="width: 100%;margin-top: 15px;" name="productSearchBtn" type="submit" id="btnFilter">لیست را فیلتر کن</button>
+            </form>
+        </div>
+
+    </div>
 </div>
         <script src="../Assets/Js/bootstrap.bundle.min.js"></script>
         <script src="../Assets/Js/bootstrap.min.js"></script>
