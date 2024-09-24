@@ -24,6 +24,39 @@
     <link rel="stylesheet" href="../Assets/Css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="../Assets/Css/Style.css">
     <link rel="stylesheet" href="../Assets/Css/all.css">
+    <script src="../Assets/Js/bootstrap.bundle.min.js"></script>
+    <script src="../Assets/Js/bootstrap.min.js"></script>
+    <script>  
+document.addEventListener('DOMContentLoaded', function () {  
+    const offcanvasNavbar = document.getElementById('offcanvasNavbar');  
+    const navbarToggler = document.querySelector('.navbar-toggler');  
+
+    // بستن منو بعد از انتخاب گزینه  
+    const menuItems = offcanvasNavbar.querySelectorAll('.nav-link');  
+    menuItems.forEach(item => {  
+        item.addEventListener('click', (event) => {  
+            // جلوگیری از رفتار پیش‌فرض (اگر نیاز باشد)  
+            event.preventDefault();  
+
+            const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasNavbar);  
+            if (bsOffcanvas) {  
+                bsOffcanvas.hide(); // بستن منو  
+            }  
+        });  
+    });  
+
+    // نیز بستن منو در صورت کلیک خارج از آن   
+    document.addEventListener('click', function(event) {  
+        const isClickInside = offcanvasNavbar.contains(event.target) || navbarToggler.contains(event.target);  
+        if (!isClickInside) {  
+            const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasNavbar);  
+            if (bsOffcanvas) {  
+                bsOffcanvas.hide(); // بستن منو  
+            }  
+        }  
+    });  
+});  
+</script>
 </head>
 <body dir="rtl" style="background-color: #eee;">
     <main class="container">
@@ -89,8 +122,6 @@
         </section>
         
     </main>
-<script src="../Assets/Js/bootstrap.bundle.min.js"></script>
-<script src="../Assets/Js/bootstrap.min.js"></script>
 </body>
 </html>
 <?php
