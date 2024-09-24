@@ -14,6 +14,9 @@ if (!isset($_SESSION['logged_in'])) {
         date_default_timezone_set('Asia/Tehran');
 
         $inCodeing = cleanUpInputs($_POST['inCodeing']);
+            $inP_idSql = $conn -> query("select id from products where p_codeing = $inCodeing");
+            $inP_idSqlResult = $inP_idSql -> fetchColumn();
+           
         $inQty = cleanUpInputs($_POST['inQty']);
         $in_out = 1;
         $inDate = date('Y-m-d');
@@ -21,6 +24,9 @@ if (!isset($_SESSION['logged_in'])) {
         // تبدیل تاریخ میلادی به شمسی  
         list($year, $month, $day) = explode('-', $inDate);
         $shamsiDate = jdate('Y-m-d', mktime(0, 0, 0, $month, $day, $year));
+
+        $inYear = substr($shamsiDate, 0,8);
+        $inMonth = substr($shamsiDate, 9,4);
 
         //Select Product By p_codeing And Check Exist Or Not.
         $checkCodeSql = $conn->prepare("SELECT * FROM products WHERE p_codeing= :code");
@@ -38,14 +44,16 @@ if (!isset($_SESSION['logged_in'])) {
                 $inSqlExe->execute();
 
                 // Insert in inputoutput table.
-                $inLogSql = "INSERT INTO `inputoutput` (`id`, `in_out`, `date`, `time`, `qty`, `p_codeing`) VALUES (NULL, :inOutType, :inDate, :inTime, :inQty, :inProductCodeing);";
+                $inLogSql = "INSERT INTO `inputoutput` (`id`, `in_out`, `date`, `year`, `month`, `time`, `qty`, `p_id`) VALUES (NULL, :inOutType, :inDate, :inYear, :inMonth, :inTime, :inQty, :inP_id);";
 
                 $inLogSqlExe = $conn->prepare($inLogSql);
                 $inLogSqlExe->bindParam('inOutType', $in_out);
-                $inLogSqlExe->bindParam('inDate', $inDate);
+                $inLogSqlExe->bindParam('inDate', $shamsiDate);
+                $inLogSqlExe->bindParam('inYear', $inYear);
+                $inLogSqlExe->bindParam('inMonth', $inMonth);
                 $inLogSqlExe->bindParam('inTime', $inTime);
                 $inLogSqlExe->bindParam('inQty', $inQty);
-                $inLogSqlExe->bindParam('inProductCodeing', $inCodeing);
+                $inLogSqlExe->bindParam('inP_id', $inP_idSqlResult);
                 $inLogSqlExe->execute();
 
                 //Set Success Update Message Var.
@@ -62,6 +70,8 @@ if (!isset($_SESSION['logged_in'])) {
         date_default_timezone_set('Asia/Tehran');
 
         $outCodeing = cleanUpInputs($_POST['outCodeing']);
+            $outP_idSql = $conn -> query("select id from products where p_codeing = $outCodeing");
+            $outP_idSqlResult = $outP_idSql -> fetchColumn();
         $outQty = cleanUpInputs($_POST['outQty']);
         $in_out = 2;
         $outDate = date('Y-m-d');
@@ -69,6 +79,9 @@ if (!isset($_SESSION['logged_in'])) {
         // تبدیل تاریخ میلادی به شمسی  
         list($year, $month, $day) = explode('-', $outDate);
         $shamsiDate = jdate('Y-m-d', mktime(0, 0, 0, $month, $day, $year));
+
+        $outYear = substr($shamsiDate, 0,8);
+        $outMonth = substr($shamsiDate, 9,4);
 
         //Select Product By p_codeing And Check Exist Or Not.
         $checkCodeSql = $conn->prepare("SELECT * FROM products WHERE p_codeing= :code");
@@ -95,14 +108,16 @@ if (!isset($_SESSION['logged_in'])) {
                     $outSqlExe->execute();
     
                     // Insert in inputoutput table.
-                    $outLogSql = "INSERT INTO `inputoutput` (`id`, `in_out`, `date`, `time`, `qty`, `p_codeing`) VALUES (NULL, :inOutType, :inDate, :inTime, :inQty, :inProductCodeing);";
+                    $outLogSql = "INSERT INTO `inputoutput` (`id`, `in_out`, `date`, `year`, `month`, `time`, `qty`, `p_id`) VALUES (NULL, :inOutType, :inDate, :inYear, :inMonth, :inTime, :inQty, :inP_id);";
     
                     $outLogSqlExe = $conn->prepare($outLogSql);
                     $outLogSqlExe->bindParam('inOutType', $in_out);
-                    $outLogSqlExe->bindParam('inDate', $outDate);
+                    $outLogSqlExe->bindParam('inDate', $shamsiDate);
+                    $outLogSqlExe->bindParam('inYear', $outYear);
+                    $outLogSqlExe->bindParam('inMonth', $outMonth);
                     $outLogSqlExe->bindParam('inTime', $outTime);
                     $outLogSqlExe->bindParam('inQty', $outQty);
-                    $outLogSqlExe->bindParam('inProductCodeing', $outCodeing);
+                    $outLogSqlExe->bindParam('inP_id', $outP_idSqlResult);
                     $outLogSqlExe->execute();
     
                     //Set Success Update Message Var.
