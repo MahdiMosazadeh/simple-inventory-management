@@ -11,11 +11,19 @@ if (!isset($_SESSION['logged_in'])) {
 
     //delete product by id
     if (isset($_GET['id'])) {
-        $id = cleanUpInputs($_GET['id']);
+        try
+        {
+            $id = cleanUpInputs($_GET['id']);
 
-        $sql = $conn->prepare("DELETE FROM `products` WHERE `products`.`id` = ?");
-        $sql->bindParam(1, $id);
-        $sql->execute();
+            $sql = $conn->prepare("DELETE FROM `products` WHERE `products`.`id` = ?");
+            $sql->bindParam(1, $id);
+            $sql->execute();
+        }
+        catch (PDOException $e)
+        {
+            $delError = 1;
+        }
+        
     }
 ?>
     <!DOCTYPE html>
@@ -189,6 +197,17 @@ if (!isset($_SESSION['logged_in'])) {
                             ({    
                                 text: "بروزرسانی با موفقیت انجام شد",  
                                 icon: "success", 
+                                confirmButtonText: "تأیید"  
+                            });
+                    </script>';
+            $_SESSION['updateSuccess'] = null;
+        }
+        if (isset($delError)) {
+            echo '<script type="text/javascript">  
+                    Swal.fire
+                            ({    
+                                text: "این کد کالا دارای گردش است و قابل حذف نیست",  
+                                icon: "error", 
                                 confirmButtonText: "تأیید"  
                             });
                     </script>';
