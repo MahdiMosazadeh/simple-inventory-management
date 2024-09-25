@@ -28,16 +28,14 @@
     <script src="../Assets/Js/bootstrap.min.js"></script>
     <script>  
 document.addEventListener('DOMContentLoaded', function () {  
+    // انتخاب منوی همبرگری و دکمه‌های آن  
     const offcanvasNavbar = document.getElementById('offcanvasNavbar');  
     const navbarToggler = document.querySelector('.navbar-toggler');  
 
     // بستن منو بعد از انتخاب گزینه  
     const menuItems = offcanvasNavbar.querySelectorAll('.nav-link');  
     menuItems.forEach(item => {  
-        item.addEventListener('click', (event) => {  
-            // جلوگیری از رفتار پیش‌فرض (اگر نیاز باشد)  
-            event.preventDefault();  
-
+        item.addEventListener('click', () => {  
             const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasNavbar);  
             if (bsOffcanvas) {  
                 bsOffcanvas.hide(); // بستن منو  
