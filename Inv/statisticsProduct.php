@@ -211,7 +211,6 @@ if (!isset($_SESSION['logged_in'])) {
                                 confirmButtonText: "تأیید"  
                             });
                     </script>';
-            $_SESSION['updateSuccess'] = null;
         }
         ?>
         <script src="../Assets/Js/bootstrap.bundle.min.js"></script>
