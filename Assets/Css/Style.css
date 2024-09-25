@@ -3,6 +3,8 @@ html,body
     font-size: 100%;
     font-family: "iranFamily";
     background-color: #eee;
+    scrollbar-width: thin; /* می‌تواند 'auto' یا 'thin' باشد */  
+    scrollbar-color: #888 #f1f1f1; /* رنگ نوار اسکرول و زمینه */   
 }
 .blue-color
 {
@@ -24,6 +26,25 @@ html,body
 {
     margin-right: 15px;
     color: red;
+}
+
+
+/* برای Chrome, Edge, Safari */  
+::-webkit-scrollbar {  
+    width: 2px; /* عرض نوار اسکرول */  
+}  
+
+::-webkit-scrollbar-track {  
+    background: #f1f1f1; /* رنگ زمینه نوار */  
+}  
+
+::-webkit-scrollbar-thumb {  
+    background: #888; /* رنگ نوار اسکرول */  
+    border-radius: 10px; /* گرد کردن گوشه‌های نوار */  
+}  
+
+::-webkit-scrollbar-thumb:hover {  
+    background: #555; /* رنگ نوار اسکرول هنگام hover */  
 }
 /*index.php Styles*/
 
@@ -254,3 +275,24 @@ html,body
 {
     margin-top: 10px;
 }
+
+/* dashboard Style*/
+
+.dashboard
+{
+    text-align: center;
+    margin-top: 10px;
+    padding: 15px;
+}
+.dashboard select
+{
+    margin: 5px;
+    width: 20%;
+}
+.dashboard button
+{
+    width: 30%;
+}
+
+
+
