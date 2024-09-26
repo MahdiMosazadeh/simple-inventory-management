@@ -33,6 +33,29 @@ if (!isset($_SESSION['logged_in'])) {
         }
 
     }
+
+    //delete product by id
+    if (isset($_GET['id'])) {
+        try {
+            $id = cleanUpInputs($_GET['id']);
+
+            $fileNameSql = "select imgAddress from products where id = $id";
+            $stmtPicName = $conn -> query($fileNameSql);
+            $stmtPicNameResult = $stmtPicName -> fetchColumn();
+            $filename = $stmtPicNameResult; // نام فایلی که می‌خواهید حذف کنید  
+
+            if (file_exists($filename)) {
+                // بررسی وجود فایل  
+                unlink($filename);
+            }
+
+            $sql = $conn->prepare("DELETE FROM `products` WHERE `products`.`id` = ?");
+            $sql->bindParam(1, $id);
+            $sql->execute();
+        } catch (PDOException $e) {
+            $delError = 1;
+        }
+    }
 ?>
     <!DOCTYPE html>
     <html lang="fa">
@@ -110,7 +133,7 @@ if (!isset($_SESSION['logged_in'])) {
                                             <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
                                             <td><?php echo htmlspecialchars($row['p_description']) ?></td>
                                             <td><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></td>
-                                            <td><!-- <a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"> --><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
+                                            <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
                                             <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                         </tr>
                                     <?php endforeach; ?>
