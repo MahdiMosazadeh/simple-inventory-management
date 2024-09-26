@@ -11,19 +11,25 @@ if (!isset($_SESSION['logged_in'])) {
 
     //delete product by id
     if (isset($_GET['id'])) {
-        try
-        {
+        try {
             $id = cleanUpInputs($_GET['id']);
+
+            $fileNameSql = "select imgAddress from products where id = $id";
+            $stmtPicName = $conn -> query($fileNameSql);
+            $stmtPicNameResult = $stmtPicName -> fetchColumn();
+            $filename = $stmtPicNameResult; // نام فایلی که می‌خواهید حذف کنید  
+
+            if (file_exists($filename)) {
+                // بررسی وجود فایل  
+                unlink($filename);
+            }
 
             $sql = $conn->prepare("DELETE FROM `products` WHERE `products`.`id` = ?");
             $sql->bindParam(1, $id);
             $sql->execute();
-        }
-        catch (PDOException $e)
-        {
+        } catch (PDOException $e) {
             $delError = 1;
         }
-        
     }
 ?>
     <!DOCTYPE html>
