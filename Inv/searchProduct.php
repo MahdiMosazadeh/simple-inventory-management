@@ -19,8 +19,7 @@ if (!isset($_SESSION['logged_in'])) {
 
             // دریافت نتایج  
             $searchProductSqlResult = $searchProductSql->fetchAll(PDO::FETCH_ASSOC);
-        }
-        else if (isset($_POST['select']) && $_POST['select'] == 'p_codeing') {
+        } else if (isset($_POST['select']) && $_POST['select'] == 'p_codeing') {
             $productCodeing = $_POST['productName'];
 
             $num = 1;
@@ -31,7 +30,6 @@ if (!isset($_SESSION['logged_in'])) {
             // دریافت نتایج  
             $searchProductSqlResult = $searchProductSql->fetchAll(PDO::FETCH_ASSOC);
         }
-
     }
 
     //delete product by id
@@ -40,8 +38,8 @@ if (!isset($_SESSION['logged_in'])) {
             $id = cleanUpInputs($_GET['id']);
 
             $fileNameSql = "select imgAddress from products where id = $id";
-            $stmtPicName = $conn -> query($fileNameSql);
-            $stmtPicNameResult = $stmtPicName -> fetchColumn();
+            $stmtPicName = $conn->query($fileNameSql);
+            $stmtPicNameResult = $stmtPicName->fetchColumn();
             $filename = $stmtPicNameResult; // نام فایلی که می‌خواهید حذف کنید  
 
             if (file_exists($filename)) {
@@ -72,9 +70,107 @@ if (!isset($_SESSION['logged_in'])) {
         <link rel="stylesheet" href="../Assets/Css/all.css">
         <link rel="stylesheet" href="../Assets/Css/sweetalert2.min.css">
         <script src="../Assets/Js/sweetalert2.js"></script>
+        <style>
+            .popup {
+                display: none;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.8);
+                z-index: 100000000;
+            }
+
+            .popup-content {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #fff;
+                border-radius: 8px;
+                padding: 20px;
+                text-align: center;
+                animation: fade-in 0.5s ease;
+                z-index: 100000000;
+            }
+
+            .popup img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 8px;
+                z-index: 100000000;
+            }
+
+            .close-btn {
+                margin-top: 10px;
+                padding: 10px 20px;
+                background-color: #f44336;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                z-index: 100000000;
+            }
+
+            .close-btn:hover {
+                background-color: #c62828;
+                z-index: 100000000;
+            }
+
+            @keyframes fade-in {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+        </style>
+
     </head>
 
     <body dir="rtl">
+        <!-- پاپ آپ نمایش تصویر محصول -->
+        <?php
+        if (isset($_GET['picAddress'])) {
+            $id = $_GET['picAddress'];
+
+            $fileNameSql = "select imgAddress from products where id = $id";
+            $stmtPicName = $conn->query($fileNameSql);
+            $stmtPicNameResult = $stmtPicName->fetchColumn();
+            $filename = $stmtPicNameResult; // File Address And Name
+        ?>
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <img src="<?php echo $filename; ?>" alt="Your Image">
+                <button class="close-btn" id="close-popup">بستن</button>
+            </div>
+        </div>
+            <script>
+                window.onload = function() {
+                    var popup = document.getElementById("popup");
+                    if (popup) {
+                        popup.style.display = "block";
+                    }
+                };
+
+                document.getElementById("close-popup").onclick = function() {
+                    document.getElementById("popup").style.display = "none";
+                }
+
+                // برای بستن پاپ آپ با کلیک خارج از آن  
+                window.onclick = function(event) {
+                    const popup = document.getElementById("popup");
+                    if (event.target == popup) {
+                        popup.style.display = "none";
+                    }
+                }
+            </script>
+        <?php
+        }
+        ?>
         <main class="container searchProduct">
             <section class="row">
                 <div class="col">
@@ -132,7 +228,7 @@ if (!isset($_SESSION['logged_in'])) {
                                             <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                             <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
                                             <td><?php echo htmlspecialchars($row['p_description']) ?></td>
-                                            <td><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></td>
+                                            <td><a id="open-popup" style="color: black;" href="?picAddress=<?php echo htmlspecialchars($row['id']) ?>"><i class="fa-duotone fa-solid fa-image"></i></a></td>
                                             <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
                                             <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                         </tr>
@@ -203,6 +299,20 @@ if (!isset($_SESSION['logged_in'])) {
                         <?php } ?>
                     </form>
                 </div>
+
+                <?php
+                if (isset($delError)) {
+                    echo '<script type="text/javascript">  
+                                Swal.fire
+                                        ({    
+                                            text: "این کد کالا دارای گردش است و قابل حذف نیست",  
+                                            icon: "error", 
+                                            confirmButtonText: "تأیید"  
+                                        });
+                                </script>';
+                    $delError = null;
+                }
+                ?>
             </section>
         </main>
         <script src="../Assets/Js/bootstrap.bundle.min.js"></script>
