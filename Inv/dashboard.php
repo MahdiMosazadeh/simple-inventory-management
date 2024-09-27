@@ -53,6 +53,7 @@ if (!isset($_SESSION['logged_in'])) {
             $sql = $conn->prepare("DELETE FROM `inputoutput` WHERE `inputoutput`.`id` = ?");
             $sql->bindParam(1, $id);
             $sql->execute();
+            redirect('dashboard.php');
         }
         catch (PDOException $e)
         {
