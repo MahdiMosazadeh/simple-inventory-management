@@ -144,7 +144,7 @@ if (!isset($_SESSION['logged_in'])) {
         ?>
         <div class="popup" id="popup">
             <div class="popup-content">
-                <img src="<?php echo $filename; ?>" alt="Your Image">
+                <img src="<?php echo $filename; ?>" alt="تصویری برای این محصول انتخاب نشده است">
                 <button class="close-btn" id="close-popup">بستن</button>
             </div>
         </div>
