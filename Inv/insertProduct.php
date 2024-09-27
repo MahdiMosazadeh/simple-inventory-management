@@ -25,13 +25,13 @@ require_once '../Scripts/functions.php';
     <body dir="rtl" style="background-color: #eee;">
     <?php
     //Check the User Session Login , If Session Doesn't Set
-//Then Redirect To The Login Page And If Login Is Set Show The Page
+    //Then Redirect To The Login Page And If Login Is Set Show The Page
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
-    //check the btn are isset ? if isset then recive paramets and connect DB and Insert Them.
+    //اگر روی دکمه کلیک شده بود و عکس انتخاب شده بود
     if (isset($_POST['newProductBtn']) and !empty($_FILES["image"]["name"])) {
-        //recive form Paramets
+        //دریافت اطلاعات
         $productCodeing = cleanUpInputs($_POST['productCodeing']);
         $productName = cleanUpInputs($_POST['productName']);
         $productPlace = cleanUpInputs($_POST['productPlace']);
@@ -39,7 +39,7 @@ if (!isset($_SESSION['logged_in'])) {
         $productQty = cleanUpInputs($_POST['productQty']);
         $productDescription = cleanUpInputs($_POST['productDescription']);
 
-        //prepare store image
+        //آماده سازی ذخیره تصویر
         $targetDir = "../Assets/Uploads/Img/Products/";
         $imageFileType = strtolower(pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION));
 
@@ -96,7 +96,7 @@ if (!isset($_SESSION['logged_in'])) {
         $checkCodeSql->bindParam(':code', $productCodeing);
         $checkCodeSql->execute();
 
-        if ($checkCodeSql->rowCount() > 0) {
+        if ($checkCodeSql->rowCount() > 0) {//بررسی وجود کدینگ وارد شده توسط کاربر اگر وجود نداشت محصول جدید ذخیر میشود
             $duplicateCode = 1;
         } else {
             //Insert SQL
@@ -120,7 +120,7 @@ if (!isset($_SESSION['logged_in'])) {
         }
     }
 
-    //if image is not selected
+    //اگر تصویر انتخاب نشده بود ذخیره سازی در دیتابیس بدون تصویر و با مقدار نال ذخیره میشود
     if (isset($_POST['newProductBtn']) and empty($_FILES["image"]["name"])) {
         //recive form Paramets
         $productCodeing = cleanUpInputs($_POST['productCodeing']);

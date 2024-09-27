@@ -8,27 +8,27 @@ require_once '../Scripts/functions.php';
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
-    // select and fetch zero qty products.
+    // انتخاب محصولاتی که تعدادشان صفر است
     $sqlZeroQty = "SELECT COUNT(*) FROM `products` WHERE p_qty=0;";
     $stmt = $conn->query($sqlZeroQty);
     $zeroQtyCount = $stmt->fetchColumn();
 
-    // select and fetch less than 5 qty products.
+    // انتخاب محصولاتی که تعدادشان کمتر از 5 عدد است
     $sqlLessQty = "SELECT COUNT(*) FROM `products` WHERE p_qty <= 5;";
     $stmtLess = $conn->query($sqlLessQty);
     $lessQtyCount = $stmtLess->fetchColumn();
 
-    // select all qty products.
+    // انتخاب تعداد محصولات
     $sqlAllQty = "SELECT COUNT(*) FROM `products`";
     $stmtAll = $conn->query($sqlAllQty);
     $AllQtyCount = $stmtAll->fetchColumn();
 
-    // select all qty products. all SUM QTY
+    // جمع موجودی کل اجناس انبار
     $sqlSUMQty = "SELECT SUM(p_qty) FROM `products`";
     $stmtSUM = $conn->query($sqlSUMQty);
     $sumQtyCount = $stmtSUM->fetchColumn();
 
-    // Select All Input Outputs
+    // انتخاب تمام ورودی و خروجی ها اگر دکمه فیلر زده شود ، لیست فیلتر میشود اگه زده نشود تمام ورودی خروجی ها نمایش داده میشود
     if (isset($_POST['btnFilter'])) {
         $year = strval($_POST['year']);
         $month = strval($_POST['month']);
@@ -37,14 +37,14 @@ if (!isset($_SESSION['logged_in'])) {
         $stmtInOutAll = $conn->query($inOutAllSql);
         $allInOut = $stmtInOutAll->fetchAll();
     }
-    else
+    else // نمایش تمام ورودی خروجی ها
     {
         $inOutAllSql = "SELECT * FROM `inputoutput` order by id desc";
         $stmtInOutAll = $conn->query($inOutAllSql);
         $allInOut = $stmtInOutAll->fetchAll();
     }
 
-    //delete inputoutput by id
+    //حذف ورودی و خروجی با استفاده از فیلد آی دی
     if (isset($_GET['id'])) {
         try
         {
@@ -53,11 +53,11 @@ if (!isset($_SESSION['logged_in'])) {
             $sql = $conn->prepare("DELETE FROM `inputoutput` WHERE `inputoutput`.`id` = ?");
             $sql->bindParam(1, $id);
             $sql->execute();
-            redirect('dashboard.php');
+            redirect('dashboard.php');// رفرش صفحه تا لیست بروز شود
         }
         catch (PDOException $e)
         {
-            $delError = 1;
+            $delError = 1; // خطا
         }
         
     }
@@ -175,37 +175,37 @@ if (!isset($_SESSION['logged_in'])) {
                                 <tbody>
 
                                 <?php
-                                    if (isset($_POST['btnFilter'])) {
+                                    if (isset($_POST['btnFilter'])) { // اگر دکمه فیلتر زده شده بود
                                     $i = 1;
                                     foreach ($allInOut as $row): ?>
-                                        <tr <?php if ($row['in_out'] == 1) {
+                                        <tr <?php if ($row['in_out'] == 1) { // نمایش ورودی ها با رنگ سبز
                                                 echo "class='table-success'";
-                                            } else if ($row['in_out'] == 2) {
+                                            } else if ($row['in_out'] == 2) {// نمایش خروجی ها با رنگ قرمز
                                                 echo "class='table-warning'";
                                             } ?>>
                                             <th scope="row"><?php echo $i++; ?></th>
                                             <td><?php echo htmlspecialchars($row['date']) ?></td>
                                             <td><?php echo htmlspecialchars($row['time']) ?></td>
                                             <td><?php if ($row['in_out'] == 1) {
-                                                    echo "ورود";
+                                                    echo "ورود"; // درصورتی که ردیفی فیلد ورودخروجش 1 باشد کلمه ورود چاپ شود 2 باشد خروج چاپ شود
                                                 } else if ($row['in_out'] == 2) {
                                                     echo "خروج";
                                                 } ?></td>
                                             <td><?php echo htmlspecialchars($row['qty']) ?></td>
 
-                                            <?php //fetch P_name from Product with FK
+                                            <?php //واکشی اسم محصول با استفاده از کلید خارجی پی آی دی
                                             $pID = $row['p_id'];
                                             $fetchProductNameSql = "select p_name from products where id = $pID";
                                             $stmtName = $conn->query($fetchProductNameSql);
                                             $pName = $stmtName->fetchColumn();
                                             ?>
-                                            <?php //fetch P_codeing from Product with FK
+                                            <?php //واکشی کدینگ کالای دارای گردش با استفاده از کلید خارجی
                                             $pID = $row['p_id'];
                                             $fetchProductCodeingSql = "select p_codeing from products where id = $pID";
                                             $stmtCodeing = $conn->query($fetchProductCodeingSql);
                                             $pCodeing = $stmtCodeing->fetchColumn();
                                             ?>
-                                            <?php //fetch P_QTY from Product with FK
+                                            <?php //واکشی تعداد موجودی کالای گردش داده شده 
                                             $pID = $row['p_id'];
                                             $fetchProductQTYSql = "select p_qty from products where id = $pID";
                                             $stmtQTY = $conn->query($fetchProductQTYSql);
@@ -220,7 +220,7 @@ if (!isset($_SESSION['logged_in'])) {
                                     <?php endforeach;} ?>
 
                                     <?php
-                                    if (!isset($_POST['btnFilter'])) {
+                                    if (!isset($_POST['btnFilter'])) { // زمانی که روی دکمه فیلتر کلیک نشود این شرط اجرا میشود و متغیر ثابت در بالا مقدار متفاوتی برایش ست شده
                                     $i = 1;
                                     foreach ($allInOut as $row): ?>
                                         <tr <?php if ($row['in_out'] == 1) {

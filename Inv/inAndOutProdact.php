@@ -9,33 +9,33 @@ require_once '../Scripts/jdf.php';
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
-    //In Product
+    //اگر کاربر روی دکمه ورود کالا کلیک کند این شرط اجرا میشود
     if (isset($_POST['inBtn'])) {
         date_default_timezone_set('Asia/Tehran');
 
-        $inCodeing = cleanUpInputs($_POST['inCodeing']);
-            $inP_idSql = $conn -> query("select id from products where p_codeing = $inCodeing");
+        $inCodeing = cleanUpInputs($_POST['inCodeing']);// دریافت کدینگ کالا از کاربر
+            $inP_idSql = $conn -> query("select id from products where p_codeing = $inCodeing");// واکشی آی دی محصول و پردازش با استفاده از آی دی
             $inP_idSqlResult = $inP_idSql -> fetchColumn();
            
         $inQty = cleanUpInputs($_POST['inQty']);
-        $in_out = 1;
+        $in_out = 1; // وضعیت ورودی با کد1 مشخص میشود در دیتابیس
         $inDate = date('Y-m-d');
         $inTime = date('H:i:s');
         // تبدیل تاریخ میلادی به شمسی  
         list($year, $month, $day) = explode('-', $inDate);
-        $shamsiDate = jdate('Y-m-d', mktime(0, 0, 0, $month, $day, $year));
+        $shamsiDate = jdate('Y-m-d', mktime(0, 0, 0, $month, $day, $year));// تاریخ کامل
 
-        $inYear = substr($shamsiDate, 0,8);
-        $inMonth = substr($shamsiDate, 9,4);
+        $inYear = substr($shamsiDate, 0,8);// جدا کردن سال از تاریخ
+        $inMonth = substr($shamsiDate, 9,4);// جدا کردن ماه از تاریخ
 
-        //Select Product By p_codeing And Check Exist Or Not.
+        //بررسی وجود کالا با استفاده از کدینگ وارد شده و در صورت وجود کالا ورود ثبت میشود در غیراین صورت خطای عدم وجود میدهد
         $checkCodeSql = $conn->prepare("SELECT * FROM products WHERE p_codeing= :code");
         $checkCodeSql->bindParam(':code', $inCodeing);
         $checkCodeSql->execute();
-        //If Exist Then : Execute Update Sql.
+        //در صورت وجود کالا ادامه فرایند ثبت ورود در دیتابیس انجام میشود
         if ($checkCodeSql->rowCount() > 0) {
             try {
-                // update product table qty col.
+                // آپدیت مقدار تعداد کالا در جدول محصولات و جمع با مقدار قبلی
                 $inSql = "UPDATE products SET p_qty = p_qty + :qty WHERE p_codeing = :code ";
 
                 $inSqlExe = $conn->prepare($inSql);
@@ -43,7 +43,7 @@ if (!isset($_SESSION['logged_in'])) {
                 $inSqlExe->bindParam('code', $inCodeing);
                 $inSqlExe->execute();
 
-                // Insert in inputoutput table.
+                // ثبت لاگ مروبط به این ورود خروج در دیتابیس
                 $inLogSql = "INSERT INTO `inputoutput` (`id`, `in_out`, `date`, `year`, `month`, `time`, `qty`, `p_id`) VALUES (NULL, :inOutType, :inDate, :inYear, :inMonth, :inTime, :inQty, :inP_id);";
 
                 $inLogSqlExe = $conn->prepare($inLogSql);
@@ -56,16 +56,16 @@ if (!isset($_SESSION['logged_in'])) {
                 $inLogSqlExe->bindParam('inP_id', $inP_idSqlResult);
                 $inLogSqlExe->execute();
 
-                //Set Success Update Message Var.
+                //تنظیم پیغام ثبت موفقیت آمیز بودن
                 $updateSuccess = 1;
             } catch (PDOException $error) {
                 echo $error->getMessage();
             }
         } else {
-            $notExist = 1;
+            $notExist = 1; // خطای عدم وجود کدینگ
         }
     }
-    //Out Product
+    //اگر کاربر روی دکمه خروج کالا کلیک کرده باشد
     else if (isset($_POST['outBtn'])) {
         date_default_timezone_set('Asia/Tehran');
 
@@ -83,20 +83,20 @@ if (!isset($_SESSION['logged_in'])) {
         $outYear = substr($shamsiDate, 0,8);
         $outMonth = substr($shamsiDate, 9,4);
 
-        //Select Product By p_codeing And Check Exist Or Not.
+        //بررسی وجود کالا با استفاده از کدینگ
         $checkCodeSql = $conn->prepare("SELECT * FROM products WHERE p_codeing= :code");
         $checkCodeSql->bindParam(':code', $outCodeing);
         $checkCodeSql->execute();
         foreach ($checkCodeSql as $row) :
-            $currentQty = $row['p_qty'];
+            $currentQty = $row['p_qty']; // واکشی مقدار فعلی کالا مد نظر کاربر
         endforeach;
-        //If Exist Then : Execute Update Sql.
+        //اگر کالا وجود داشته باشد
         if ($checkCodeSql->rowCount() > 0) {
-            if($currentQty - $outQty < 0)
+            if($currentQty - $outQty < 0) // اگر مقدار خروجی کالای کاربر بیشتر از مقدار فعلی انبار باشد خطا میدهد
             {
                 $blowZero = 1;
             }
-            else
+            else // در غیر این صورت فرآیند ثبت خروج کالا و کسر آن از جدول محصولات انجام میشود
             {
                 try {
                     // update product table qty col.
