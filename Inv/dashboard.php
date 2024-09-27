@@ -33,13 +33,13 @@ if (!isset($_SESSION['logged_in'])) {
         $year = strval($_POST['year']);
         $month = strval($_POST['month']);
 
-        $inOutAllSql = "SELECT * FROM `inputoutput` where `year`= '$year' and `month`= '$month' order by date desc";
+        $inOutAllSql = "SELECT * FROM `inputoutput` where `year`= '$year' and `month`= '$month' order by id desc";
         $stmtInOutAll = $conn->query($inOutAllSql);
         $allInOut = $stmtInOutAll->fetchAll();
     }
     else
     {
-        $inOutAllSql = "SELECT * FROM `inputoutput` order by date desc";
+        $inOutAllSql = "SELECT * FROM `inputoutput` order by id desc";
         $stmtInOutAll = $conn->query($inOutAllSql);
         $allInOut = $stmtInOutAll->fetchAll();
     }
