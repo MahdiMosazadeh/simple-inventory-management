@@ -42,14 +42,18 @@ if (!isset($_SESSION['logged_in'])) {
             $stmtPicNameResult = $stmtPicName->fetchColumn();
             $filename = $stmtPicNameResult; // نام فایلی که می‌خواهید حذف کنید  
 
-            if (file_exists($filename)) {
-                // بررسی وجود فایل  
-                unlink($filename);
-            }
-
             $sql = $conn->prepare("DELETE FROM `products` WHERE `products`.`id` = ?");
             $sql->bindParam(1, $id);
             $sql->execute();
+            $deleteSuccess = $sql->execute();
+
+            if($deleteSuccess)
+            {
+                if (file_exists($filename)) {
+                    // بررسی وجود فایل  
+                    unlink($filename);
+                }
+            }
         } catch (PDOException $e) {
             $delError = 1;
         }
