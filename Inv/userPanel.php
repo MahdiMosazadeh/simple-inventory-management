@@ -78,6 +78,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <a target="user-panel-frame" class="nav-link active" aria-current="page" href="dashboard.php"><i class="fa-solid fa-gauge"></i> داشبورد</a>
                                     </li>
                                     <li class="nav-item">
+                                        <a target="user-panel-frame" class="nav-link" href="initINV.php"><i class="fa-sharp-duotone fa-solid fa-warehouse"></i> معرفی و لیست انبارها</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a target="user-panel-frame" class="nav-link" href="insertProduct.php"><i class="fa-solid fa-square-plus"></i> معرفی کالا</a>
                                     </li>
                                     <li class="nav-item">
