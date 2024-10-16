@@ -29,6 +29,8 @@ if (!isset($_SESSION['logged_in'])) {
             $errorMessage = 1;
         }
     }
+    try
+    {
     if (isset($_GET['id'])) {
         $id = cleanUpInputs($_GET['id']);
 
@@ -37,6 +39,10 @@ if (!isset($_SESSION['logged_in'])) {
         $del = $sql->execute();
         if($del) { $delSuccess = 1; }
 
+    }
+    }
+    catch (PDOException $e) {
+        $delError = 1;
     }
 ?>
     <!DOCTYPE html>
@@ -85,7 +91,17 @@ if (!isset($_SESSION['logged_in'])) {
             echo '<script type="text/javascript">  
                             Swal.fire
                                     ({    
-                                        text: "' . $e . '",  
+                                        text: "خطایی رخ داده است لطفا با پشتیبانی تماس بگیرید",  
+                                        icon: "error", 
+                                        confirmButtonText: "تأیید"  
+                                    });
+                      </script>';
+        }
+        else if (isset($delError)) {
+            echo '<script type="text/javascript">  
+                            Swal.fire
+                                    ({    
+                                        text: "این انبار گردش دارد و امکان حذف آن وجود ندارد",  
                                         icon: "error", 
                                         confirmButtonText: "تأیید"  
                                     });
