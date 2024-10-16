@@ -38,6 +38,7 @@ if (!isset($_SESSION['logged_in'])) {
         $productUnit = cleanUpInputs($_POST['productUnit']);
         $productQty = cleanUpInputs($_POST['productQty']);
         $productDescription = cleanUpInputs($_POST['productDescription']);
+        $invID = cleanUpInputs($_POST['invId']);
 
         //آماده سازی ذخیره تصویر
         $targetDir = "../Assets/Uploads/Img/Products/";
@@ -102,9 +103,8 @@ if (!isset($_SESSION['logged_in'])) {
             //Insert SQL
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFilePath)) {
                 try {
-                    $sqlInsertProduct = $conn->prepare("INSERT INTO `products` (`id`, `p_codeing`, `p_name`, `p_place`, `p_unit`, `p_qty`, `p_description`, `imgAddress`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);");
-                    $sqlInsertProduct->execute([$productCodeing, $productName, $productPlace, $productUnit, $productQty, $productDescription, $targetFilePath]);
-                    $conn = null;
+                    $sqlInsertProduct = $conn->prepare("INSERT INTO `products` (`id`, `p_codeing`, `p_name`, `p_place`, `p_unit`, `p_qty`, `p_description`, `imgAddress`, `inv_id`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?);");
+                    $sqlInsertProduct->execute([$productCodeing, $productName, $productPlace, $productUnit, $productQty, $productDescription, $targetFilePath, $invID]);
                     // if query execute successfully then Alert Success 
                     if ($sqlInsertProduct) {
                         $successMessage = 1;
@@ -129,6 +129,7 @@ if (!isset($_SESSION['logged_in'])) {
         $productUnit = cleanUpInputs($_POST['productUnit']);
         $productQty = cleanUpInputs($_POST['productQty']);
         $productDescription = cleanUpInputs($_POST['productDescription']);
+        $invID = cleanUpInputs($_POST['invId']);
 
         $checkCodeSql = $conn->prepare("SELECT * FROM products WHERE p_codeing= :code");
         $checkCodeSql->bindParam(':code', $productCodeing);
@@ -139,9 +140,8 @@ if (!isset($_SESSION['logged_in'])) {
         } else {
             //Insert SQL
                 try {
-                    $sqlInsertProduct = $conn->prepare("INSERT INTO `products` (`id`, `p_codeing`, `p_name`, `p_place`, `p_unit`, `p_qty`, `p_description`, `imgAddress`) VALUES (NULL, ?, ?, ?, ?, ?, ?, NULL);");
-                    $sqlInsertProduct->execute([$productCodeing, $productName, $productPlace, $productUnit, $productQty, $productDescription,]);
-                    $conn = null;
+                    $sqlInsertProduct = $conn->prepare("INSERT INTO `products` (`id`, `p_codeing`, `p_name`, `p_place`, `p_unit`, `p_qty`, `p_description`, `imgAddress`, `inv_id`) VALUES (NULL, ?, ?, ?, ?, ?, ?, NULL,?);");
+                    $sqlInsertProduct->execute([$productCodeing, $productName, $productPlace, $productUnit, $productQty, $productDescription,$invID]);
                     // if query execute successfully then Alert Success 
                     if ($sqlInsertProduct) {
                         $successMessage = 1;
@@ -212,6 +212,21 @@ if (!isset($_SESSION['logged_in'])) {
                     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="form-control" enctype="multipart/form-data">
                         <input type="number" name="productCodeing" id="productCodeing" class="form-control" style="direction: rtl" required="required" placeholder="کدینگ" oninvalid="this.setCustomValidity('شماره گذاری کالا ها')" oninput="setCustomValidity('')">
                         <input type="text" name="productName" id="productName" class="form-control" style="direction: rtl" placeholder="نام کالا" required="required" oninvalid="this.setCustomValidity('نام کامل کالا را وارد کنید')" oninput="setCustomValidity('')">
+                        
+                        <select class="form-select" name="invId" id="invId" required style="margin-bottom: 10px;">
+                        <option value="" disabled selected>انبار این کالا را انتخاب کنید</option>  
+                        <?php
+                            $sqlSelectInv = $conn->query("select name,id from inv;");
+                            $sqlSelectInv -> execute();
+                            foreach($sqlSelectInv as $row):
+                        ?>
+                        
+                                <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+
+                        <?php
+                            endforeach;
+                        ?>
+                        </select>
                         <input type="text" name="productPlace" id="productPlace" class="form-control" style="direction: rtl" placeholder="محل استقرار کالا" required="required" oninvalid="this.setCustomValidity('محل قرارگیری کالا را وارد کنید')" oninput="setCustomValidity('')">
                         <input type="text" name="productUnit" id="productUnit" class="form-control" style="direction: rtl" placeholder="واحد سنجش کالا (به طور مثال : عدد)" required="required" oninvalid="this.setCustomValidity('واحد سنجش کالا را وارد کنید')" oninput="setCustomValidity('')">
                         <input type="number" name="productQty" id="productQty" class="form-control" min="0" max="10000000" step="1" style="direction: rtl" placeholder="موجودی اولیه" required="required" oninvalid="this.setCustomValidity('نمیتواند اعشار یا خالی باشد')" oninput="setCustomValidity('')">
