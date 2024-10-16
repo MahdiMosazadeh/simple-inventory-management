@@ -172,6 +172,7 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">استقرار</th>
                                     <th scope="col">واحد</th>
                                     <th scope="col">تعداد</th>
+                                    <th scope="col">انبار</th>
                                     <th scope="col">توضیحات</th>
                                     <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
                                     <th scope="col" style="color: red;width: 20px;">حذف</th>
@@ -191,6 +192,12 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_place']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
+                                        <td><?php $inv_id = $row['inv_id'];//دریافت آی دی انبار محصول و واکشی نام انبار براساس آی دی آن
+                                        $invNameSql = "select name from inv where id = $inv_id";
+                                        $stmtInvName = $conn->query($invNameSql);
+                                        $invName = $stmtInvName->fetchColumn();
+                                        echo $invName;
+                                        ?></td>
                                         <td><?php echo htmlspecialchars($row['p_description']) ?></td>
                                         <td><a style="color: black;" href="?picAddress=<?php echo htmlspecialchars($row['id']) ?>"><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td>
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
@@ -217,6 +224,7 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">استقرار</th>
                                     <th scope="col">واحد</th>
                                     <th scope="col">تعداد</th>
+                                    <th scope="col">انبار</th>
                                     <th scope="col">توضیحات</th>
                                     <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
                                     <th scope="col" style="color: red;width: 20px;">حذف</th>
@@ -236,6 +244,12 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_place']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
+                                        <td><?php $inv_id = $row['inv_id'];//دریافت آی دی انبار محصول و واکشی نام انبار براساس آی دی آن
+                                        $invNameSql = "select name from inv where id = $inv_id";
+                                        $stmtInvName = $conn->query($invNameSql);
+                                        $invName = $stmtInvName->fetchColumn();
+                                        echo $invName;
+                                        ?></td>
                                         <td><?php echo htmlspecialchars($row['p_description']) ?></td>
                                         <td><a style="color: black;" href="?picAddress=<?php echo htmlspecialchars($row['id']) ?>"><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td>
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
@@ -254,7 +268,6 @@ if (!isset($_SESSION['logged_in'])) {
                         <?php
                         $searchSqlAll = $conn->query('SELECT * FROM products WHERE p_qty > 5');
                         $resultAll = $searchSqlAll->fetchAll(PDO::FETCH_ASSOC);
-                        $conn = null;
                         $num = 1;
                         ?>
                         <table class="table">
@@ -266,6 +279,7 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">استقرار</th>
                                     <th scope="col">واحد</th>
                                     <th scope="col">تعداد</th>
+                                    <th scope="col">انبار</th>
                                     <th scope="col">توضیحات</th>
                                     <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
                                     <th scope="col" style="color: red;width: 20px;">حذف</th>
@@ -273,7 +287,8 @@ if (!isset($_SESSION['logged_in'])) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($resultAll as $row): ?>
+                                <?php
+                                foreach ($resultAll as $row): ?>
                                     <tr>
                                         <th scope="row"><?php echo $num++ ?></th>
                                         <td><?php if (htmlspecialchars($row['p_codeing']) == 0) {
@@ -285,6 +300,12 @@ if (!isset($_SESSION['logged_in'])) {
                                         <td><?php echo htmlspecialchars($row['p_place']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
                                         <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
+                                        <td><?php $inv_id = $row['inv_id'];//دریافت آی دی انبار محصول و واکشی نام انبار براساس آی دی آن
+                                        $invNameSql = "select name from inv where id = $inv_id";
+                                        $stmtInvName = $conn->query($invNameSql);
+                                        $invName = $stmtInvName->fetchColumn();
+                                        echo $invName;
+                                        ?></td>
                                         <td><?php echo htmlspecialchars($row['p_description']) ?></td>
                                         <td><a style="color: black;" href="?picAddress=<?php echo htmlspecialchars($row['id']) ?>"><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td>
                                         <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
