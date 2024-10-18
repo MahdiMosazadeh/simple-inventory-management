@@ -56,6 +56,7 @@
                         <option id="acc" name="acc" value="1" disabled>حسابداری</option>
                         <option id="inv" name="inv" value="2">انبارداری</option>
                         <option id="inv" name="inv" value="3">صدور فاکتور</option>
+                        <option id="inv" name="inv" value="4" disabled>دارایی ها</option>
                     </select>
                     <button type="submit" id="systemCheck" class="btn btn-primary form-control" name="systemCheck">انتخاب سیستم</button>
                 </form>
