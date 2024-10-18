@@ -99,6 +99,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <a target="user-panel-frame" class="nav-link" href="phoneNumbers.php"><i class="fa-duotone fa-solid fa-book-user"></i> اشخاص</a>
                                     </li>
                                     <li class="nav-item">
+                                        <a class="nav-link" href="../Login/system.php"><i class="fa-swap fa-solid fa-swap"></i> تغییر سیستم</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a target="user-panel-frame" class="nav-link" href="aboutApp.php"><i class="fa-solid fa-address-card"></i> درباره داده فراز</a>
                                     </li>
                                     <li class="nav-item">
