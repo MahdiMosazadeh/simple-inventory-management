@@ -36,8 +36,7 @@ if (!isset($_SESSION['logged_in'])) {
         $inOutAllSql = "SELECT * FROM `inputoutput` where `year`= '$year' and `month`= '$month' order by id desc";
         $stmtInOutAll = $conn->query($inOutAllSql);
         $allInOut = $stmtInOutAll->fetchAll();
-    }
-    else // نمایش تمام ورودی خروجی ها
+    } else // نمایش تمام ورودی خروجی ها
     {
         $inOutAllSql = "SELECT * FROM `inputoutput` order by id desc";
         $stmtInOutAll = $conn->query($inOutAllSql);
@@ -46,20 +45,16 @@ if (!isset($_SESSION['logged_in'])) {
 
     //حذف ورودی و خروجی با استفاده از فیلد آی دی
     if (isset($_GET['id'])) {
-        try
-        {
+        try {
             $id = cleanUpInputs($_GET['id']);
 
             $sql = $conn->prepare("DELETE FROM `inputoutput` WHERE `inputoutput`.`id` = ?");
             $sql->bindParam(1, $id);
             $sql->execute();
-            redirect('dashboard.php');// رفرش صفحه تا لیست بروز شود
-        }
-        catch (PDOException $e)
-        {
+            redirect('dashboard.php'); // رفرش صفحه تا لیست بروز شود
+        } catch (PDOException $e) {
             $delError = 1; // خطا
         }
-        
     }
     if (isset($delError)) {
         echo '<script type="text/javascript">  
@@ -125,8 +120,86 @@ if (!isset($_SESSION['logged_in'])) {
                         </div>
                     </div>
 
+
+
+                    <!-- فیلتر لیست کالاهای موجود در هر انبار -->
                     <div class="row" style="width:100%; max-width:1200px;margin-bottom: 15px;margin-right:0px;text-align: right;">
-                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-control dashboard">
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-control dashboard" style="text-align: right;">
+
+                            <select class="form-select" style="display: inline-block;" name="invName" id="invName" required>
+                                <option value="nothing" selected disabled>انبار مورد نظر را انتخاب کنید</option>
+                                <?php
+                                $sqlSelectInv = $conn->query("select name,id from inv;");
+                                $sqlSelectInv->execute();
+                                foreach ($sqlSelectInv as $row):
+                                ?>
+
+                                    <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
+
+                                <?php
+                                endforeach;
+                                ?>
+                            </select>
+
+                            <button class="btn btn-primary" name="btnInv" type="submit" id="btnInv" style="float: left;">کالاهای انبار را لیست کن</button>
+                        </form>
+
+                    </div>
+
+
+                    <?php
+                    if (isset($_POST['btnInv'])) { // اگر دکمه فیلتر زده شده بود
+                    ?>
+                        <div class="row" style="width:100%; max-width:1200px;margin-bottom: 15px;margin-right:0px;text-align: right;">
+                            <form class="form-control" style="padding:10px 5px 0px 5px;">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">ردیف</th>
+                                            <th scope="col">انبار</th>
+                                            <th scope="col">کدینگ کالا</th>
+                                            <th scope="col">نام کالا</th>
+                                            <th scope="col">موجود در انبار</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            $invId = $_POST['invName'];
+                                             // واکشی اطلاعات کالای مورد نظر با کد انبار
+                                            $invProductsListsSql = "SELECT * FROM `products` WHERE inv_id = (SELECT id from `inv` WHERE id = $invId)";
+                                            $stmtInvProdutsList = $conn -> query($invProductsListsSql);
+                                            $invProductsList = $stmtInvProdutsList -> fetchAll();
+
+                                            // واکشی نام انبار با کد انباری که کاربر وارد کرده
+                                            $invNameSql = "SELECT name FROM inv where id = $invId";
+                                            $stmtinvName = $conn -> query($invNameSql);
+                                            $invName = $stmtinvName -> fetchColumn();
+                                            
+                                            $rowNum = 1;
+                                            foreach($invProductsList as $row):
+                                        ?>
+                                        <tr>
+                                            <th><?php echo $rowNum; ?></th>
+                                            <td><?php echo $invName ?></td>
+                                            <td><?php echo $row['p_codeing'] ?></td>
+                                            <td><?php echo $row['p_name'] ?></td>
+                                            <td><?php echo $row['p_qty'] ?></td>
+                                        </tr>
+                                        <?php
+                                            $rowNum++;
+                                            endforeach;
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    <?php
+                    } ?>
+
+
+                    <!-- فیلتر لیست ورود و خروج کالا ها -->
+                    <div class="row" style="width:100%; max-width:1200px;margin-bottom: 15px;margin-right:0px;text-align: right;">
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-control dashboard" style="text-align: right;">
 
                             <select class="form-select" style="display: inline-block;" name="year" id="year" required>
                                 <option value="1403" selected>1403</option>
@@ -151,7 +224,7 @@ if (!isset($_SESSION['logged_in'])) {
 
 
 
-                            <button class="btn btn-primary" name="btnFilter" type="submit" id="btnFilter">لیست را فیلتر کن</button>
+                            <button class="btn btn-primary" name="btnFilter" type="submit" id="btnFilter" style="float: left;">لیست را فیلتر کن</button>
                         </form>
 
                     </div>
@@ -174,95 +247,97 @@ if (!isset($_SESSION['logged_in'])) {
                                 </thead>
                                 <tbody>
 
-                                <?php
+                                    <?php
                                     if (isset($_POST['btnFilter'])) { // اگر دکمه فیلتر زده شده بود
-                                    $i = 1;
-                                    foreach ($allInOut as $row): ?>
-                                        <tr <?php if ($row['in_out'] == 1) { // نمایش ورودی ها با رنگ سبز
-                                                echo "class='table-success'";
-                                            } else if ($row['in_out'] == 2) {// نمایش خروجی ها با رنگ قرمز
-                                                echo "class='table-warning'";
-                                            } ?>>
-                                            <th scope="row"><?php echo $i++; ?></th>
-                                            <td><?php echo htmlspecialchars($row['date']) ?></td>
-                                            <td><?php echo htmlspecialchars($row['time']) ?></td>
-                                            <td><?php if ($row['in_out'] == 1) {
-                                                    echo "ورود"; // درصورتی که ردیفی فیلد ورودخروجش 1 باشد کلمه ورود چاپ شود 2 باشد خروج چاپ شود
-                                                } else if ($row['in_out'] == 2) {
-                                                    echo "خروج";
-                                                } ?></td>
-                                            <td><?php echo htmlspecialchars($row['qty']) ?></td>
+                                        $i = 1;
+                                        foreach ($allInOut as $row): ?>
+                                            <tr <?php if ($row['in_out'] == 1) { // نمایش ورودی ها با رنگ سبز
+                                                    echo "class='table-success'";
+                                                } else if ($row['in_out'] == 2) { // نمایش خروجی ها با رنگ قرمز
+                                                    echo "class='table-warning'";
+                                                } ?>>
+                                                <th scope="row"><?php echo $i++; ?></th>
+                                                <td><?php echo htmlspecialchars($row['date']) ?></td>
+                                                <td><?php echo htmlspecialchars($row['time']) ?></td>
+                                                <td><?php if ($row['in_out'] == 1) {
+                                                        echo "ورود"; // درصورتی که ردیفی فیلد ورودخروجش 1 باشد کلمه ورود چاپ شود 2 باشد خروج چاپ شود
+                                                    } else if ($row['in_out'] == 2) {
+                                                        echo "خروج";
+                                                    } ?></td>
+                                                <td><?php echo htmlspecialchars($row['qty']) ?></td>
 
-                                            <?php //واکشی اسم محصول با استفاده از کلید خارجی پی آی دی
-                                            $pID = $row['p_id'];
-                                            $fetchProductNameSql = "select p_name from products where id = $pID";
-                                            $stmtName = $conn->query($fetchProductNameSql);
-                                            $pName = $stmtName->fetchColumn();
-                                            ?>
-                                            <?php //واکشی کدینگ کالای دارای گردش با استفاده از کلید خارجی
-                                            $pID = $row['p_id'];
-                                            $fetchProductCodeingSql = "select p_codeing from products where id = $pID";
-                                            $stmtCodeing = $conn->query($fetchProductCodeingSql);
-                                            $pCodeing = $stmtCodeing->fetchColumn();
-                                            ?>
-                                            <?php //واکشی تعداد موجودی کالای گردش داده شده 
-                                            $pID = $row['p_id'];
-                                            $fetchProductQTYSql = "select p_qty from products where id = $pID";
-                                            $stmtQTY = $conn->query($fetchProductQTYSql);
-                                            $pQTY = $stmtQTY->fetchColumn();
-                                            ?>
+                                                <?php //واکشی اسم محصول با استفاده از کلید خارجی پی آی دی
+                                                $pID = $row['p_id'];
+                                                $fetchProductNameSql = "select p_name from products where id = $pID";
+                                                $stmtName = $conn->query($fetchProductNameSql);
+                                                $pName = $stmtName->fetchColumn();
+                                                ?>
+                                                <?php //واکشی کدینگ کالای دارای گردش با استفاده از کلید خارجی
+                                                $pID = $row['p_id'];
+                                                $fetchProductCodeingSql = "select p_codeing from products where id = $pID";
+                                                $stmtCodeing = $conn->query($fetchProductCodeingSql);
+                                                $pCodeing = $stmtCodeing->fetchColumn();
+                                                ?>
+                                                <?php //واکشی تعداد موجودی کالای گردش داده شده 
+                                                $pID = $row['p_id'];
+                                                $fetchProductQTYSql = "select p_qty from products where id = $pID";
+                                                $stmtQTY = $conn->query($fetchProductQTYSql);
+                                                $pQTY = $stmtQTY->fetchColumn();
+                                                ?>
 
-                                            <td><?php echo $pName; ?></td>
-                                            <td><?php echo $pCodeing; ?></td>
-                                            <td><?php echo $pQTY; ?></td>
-                                            <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
-                                        </tr>
-                                    <?php endforeach;} ?>
+                                                <td><?php echo $pName; ?></td>
+                                                <td><?php echo $pCodeing; ?></td>
+                                                <td><?php echo $pQTY; ?></td>
+                                                <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
+                                            </tr>
+                                    <?php endforeach;
+                                    } ?>
 
                                     <?php
                                     if (!isset($_POST['btnFilter'])) { // زمانی که روی دکمه فیلتر کلیک نشود این شرط اجرا میشود و متغیر ثابت در بالا مقدار متفاوتی برایش ست شده
-                                    $i = 1;
-                                    foreach ($allInOut as $row): ?>
-                                        <tr <?php if ($row['in_out'] == 1) {
-                                                echo "class='table-success'";
-                                            } else if ($row['in_out'] == 2) {
-                                                echo "class='table-warning'";
-                                            } ?>>
-                                            <th scope="row"><?php echo $i++; ?></th>
-                                            <td><?php echo htmlspecialchars($row['date']) ?></td>
-                                            <td><?php echo htmlspecialchars($row['time']) ?></td>
-                                            <td><?php if ($row['in_out'] == 1) {
-                                                    echo "ورود";
+                                        $i = 1;
+                                        foreach ($allInOut as $row): ?>
+                                            <tr <?php if ($row['in_out'] == 1) {
+                                                    echo "class='table-success'";
                                                 } else if ($row['in_out'] == 2) {
-                                                    echo "خروج";
-                                                } ?></td>
-                                            <td><?php echo htmlspecialchars($row['qty']) ?></td>
+                                                    echo "class='table-warning'";
+                                                } ?>>
+                                                <th scope="row"><?php echo $i++; ?></th>
+                                                <td><?php echo htmlspecialchars($row['date']) ?></td>
+                                                <td><?php echo htmlspecialchars($row['time']) ?></td>
+                                                <td><?php if ($row['in_out'] == 1) {
+                                                        echo "ورود";
+                                                    } else if ($row['in_out'] == 2) {
+                                                        echo "خروج";
+                                                    } ?></td>
+                                                <td><?php echo htmlspecialchars($row['qty']) ?></td>
 
-                                            <?php //fetch P_name from Product with FK
-                                            $pID = $row['p_id'];
-                                            $fetchProductNameSql = "select p_name from products where id = $pID";
-                                            $stmtName = $conn->query($fetchProductNameSql);
-                                            $pName = $stmtName->fetchColumn();
-                                            ?>
-                                            <?php //fetch P_codeing from Product with FK
-                                            $pID = $row['p_id'];
-                                            $fetchProductCodeingSql = "select p_codeing from products where id = $pID";
-                                            $stmtCodeing = $conn->query($fetchProductCodeingSql);
-                                            $pCodeing = $stmtCodeing->fetchColumn();
-                                            ?>
-                                            <?php //fetch P_QTY from Product with FK
-                                            $pID = $row['p_id'];
-                                            $fetchProductQTYSql = "select p_qty from products where id = $pID";
-                                            $stmtQTY = $conn->query($fetchProductQTYSql);
-                                            $pQTY = $stmtQTY->fetchColumn();
-                                            ?>
+                                                <?php //fetch P_name from Product with FK
+                                                $pID = $row['p_id'];
+                                                $fetchProductNameSql = "select p_name from products where id = $pID";
+                                                $stmtName = $conn->query($fetchProductNameSql);
+                                                $pName = $stmtName->fetchColumn();
+                                                ?>
+                                                <?php //fetch P_codeing from Product with FK
+                                                $pID = $row['p_id'];
+                                                $fetchProductCodeingSql = "select p_codeing from products where id = $pID";
+                                                $stmtCodeing = $conn->query($fetchProductCodeingSql);
+                                                $pCodeing = $stmtCodeing->fetchColumn();
+                                                ?>
+                                                <?php //fetch P_QTY from Product with FK
+                                                $pID = $row['p_id'];
+                                                $fetchProductQTYSql = "select p_qty from products where id = $pID";
+                                                $stmtQTY = $conn->query($fetchProductQTYSql);
+                                                $pQTY = $stmtQTY->fetchColumn();
+                                                ?>
 
-                                            <td><?php echo $pName; ?></td>
-                                            <td><?php echo $pCodeing; ?></td>
-                                            <td><?php echo $pQTY; ?></td>
-                                            <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
-                                        </tr>
-                                    <?php endforeach;} ?>
+                                                <td><?php echo $pName; ?></td>
+                                                <td><?php echo $pCodeing; ?></td>
+                                                <td><?php echo $pQTY; ?></td>
+                                                <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
+                                            </tr>
+                                    <?php endforeach;
+                                    } ?>
                                 </tbody>
                             </table>
                         </form>
