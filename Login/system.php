@@ -24,6 +24,11 @@
                 $_SESSION['systemType'] = 1;
                 redirect('../Acc/userPanel');
             }
+            else if($_POST['system'] == 3)
+            {
+                $_SESSION['systemType'] = 3;
+                redirect('../Invoice/userPanel');
+            }
             
         }
 ?>
@@ -50,6 +55,7 @@
                     <select id="system" name="system" class="form-select">
                         <option id="acc" name="acc" value="1" disabled>حسابداری</option>
                         <option id="inv" name="inv" value="2">انبارداری</option>
+                        <option id="inv" name="inv" value="3">صدور فاکتور</option>
                     </select>
                     <button type="submit" id="systemCheck" class="btn btn-primary form-control" name="systemCheck">انتخاب سیستم</button>
                 </form>
