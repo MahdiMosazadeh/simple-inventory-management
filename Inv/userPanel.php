@@ -87,9 +87,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <a target="user-panel-frame" class="nav-link" href="inAndOutProdact.php"><i class="fa-solid fa-arrow-down-arrow-up"></i> ورود / خروج کالا</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a target="user-panel-frame" class="nav-link" href="searchProduct.php"><i class="fa-solid fa-magnifying-glass"></i> جستجو</a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a target="user-panel-frame" class="nav-link" href="statisticsProduct.php"><i class="fa-solid fa-chart-simple"></i> آمار</a>
                                     </li>
                                     <li class="nav-item">

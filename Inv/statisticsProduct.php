@@ -8,6 +8,29 @@ require_once '../Scripts/functions.php';
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
+    if (isset($_POST['productSearchBtn'])) {
+        if (isset($_POST['select']) && $_POST['select'] == 'p_name') {
+            $productName = $_POST['productName'];
+
+            $num = 1;
+
+            $searchProductSql = $conn->prepare("SELECT * FROM `products` WHERE `p_name` LIKE :search");
+            $searchProductSql->execute(['search' => '%' . $productName . '%']);
+
+            // دریافت نتایج  
+            $searchProductSqlResult = $searchProductSql->fetchAll(PDO::FETCH_ASSOC);
+        } else if (isset($_POST['select']) && $_POST['select'] == 'p_codeing') {
+            $productCodeing = $_POST['productName'];
+
+            $num = 1;
+
+            $searchProductSql = $conn->prepare("SELECT * FROM `products` WHERE `p_codeing` = :search");
+            $searchProductSql->execute(['search' => $productCodeing]);
+
+            // دریافت نتایج  
+            $searchProductSqlResult = $searchProductSql->fetchAll(PDO::FETCH_ASSOC);
+        }
+    }
 
     //delete product by id
     if (isset($_GET['id'])) {
@@ -152,6 +175,74 @@ if (!isset($_SESSION['logged_in'])) {
         }
         ?>
         <main class="container statisticsProduct">
+        <section class="row">
+                <div class="col">
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="form-control">
+                        <h3 class="blue-color">
+                            جستجوی کالا
+                        </h3>
+                        <div class="input-group mb-3">
+                            <select class="form-select" name="select" id="select" required>
+                                <option value="p_name">جستجو بر اساس نام کالا</option>
+                                <option value="p_codeing">جستجو بر اساس کدینگ کالا</option>
+                            </select>
+                            <input type="text" name="productName" class="form-control" required="required" placeholder="" oninvalid="this.setCustomValidity('قسمتی از نام کالا را وارد کنید')" oninput="setCustomValidity('')">
+                            <button class="btn btn-outline-secondary" name="productSearchBtn" type="submit" id="button-addon1">جستجو</button>
+                        </div>
+                        <?php
+                        if (isset($searchProductSqlResult)) {
+                            if ($searchProductSql->rowCount() == 0) {
+                                echo '<script type="text/javascript">  
+                            Swal.fire
+                                    ({    
+                                        text: "کالایی با این نام/کدینگ وجود ندارد",  
+                                        icon: "error", 
+                                        confirmButtonText: "تأیید"  
+                                    });
+                      </script>';
+                            }
+                        ?>
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">ردیف</th>
+                                        <th scope="col">کدینگ</th>
+                                        <th scope="col">نام</th>
+                                        <th scope="col">استقرار</th>
+                                        <th scope="col">واحد</th>
+                                        <th scope="col">تعداد</th>
+                                        <th scope="col">توضیحات</th>
+                                        <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
+                                        <th scope="col" style="color: red;width: 20px;">حذف</th>
+                                        <th scope="col" style="color: blue;width: 20px;">اصلاح</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($searchProductSqlResult as $row): ?>
+                                        <tr>
+                                            <th scope="row"><?php echo $num++ ?></th>
+                                            <td><?php if (htmlspecialchars($row['p_codeing']) == 0) {
+                                                    echo "ندارد";
+                                                } else {
+                                                    echo htmlspecialchars($row['p_codeing']);
+                                                } ?></td>
+                                            <td><?php echo htmlspecialchars($row['p_name']) ?></td>
+                                            <td><?php echo htmlspecialchars($row['p_place']) ?></td>
+                                            <td><?php echo htmlspecialchars($row['p_unit']) ?></td>
+                                            <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
+                                            <td><?php echo htmlspecialchars($row['p_description']) ?></td>
+                                            <td><a id="open-popup" style="color: black;" href="?picAddress=<?php echo htmlspecialchars($row['id']) ?>"><i class="fa-duotone fa-solid fa-image"></i></a></td>
+                                            <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
+                                            <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php } ?>
+                    </form>
+                </div>
+            </section>
+            <br>
             <section class="row">
                 <div class="col">
                     <form action="" method="post" class="form-control">
