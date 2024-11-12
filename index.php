@@ -2,7 +2,7 @@
 session_start();
 require_once './Scripts/dbConnect.php';
 require_once './Scripts/functions.php';
-
+    
 // If User Click Login Btn Then Check This IF
 if (isset($_POST['loginBtn']))
 {
@@ -15,13 +15,16 @@ if (isset($_POST['loginBtn']))
     $sql = $conn->prepare("SELECT * FROM users WHERE username= :user and password= :pass");
     $sql -> bindParam(':user',$userName);
     $sql -> bindParam(':pass',$passWord);
-    $sql->execute();
+    $sql -> execute();
+    $result = $sql -> fetchAll(PDO::FETCH_ASSOC);
     $conn = null;
     
     //If User And Pass Exist Set The Login Session And Redirect To Select System Type , Else Alert.
     if ($sql -> rowCount() > 0)
     {
+        $type = $result[0]['type'];
         $_SESSION['logged_in']= $username;
+        $_SESSION['user_type']= $type;
         redirect('./Login/system');
     }
     else
