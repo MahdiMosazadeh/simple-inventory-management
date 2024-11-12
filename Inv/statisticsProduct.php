@@ -213,8 +213,8 @@ if (!isset($_SESSION['logged_in'])) {
                                         <th scope="col">تعداد</th>
                                         <th scope="col">توضیحات</th>
                                         <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
-                                        <th scope="col" style="color: red;width: 20px;">حذف</th>
-                                        <th scope="col" style="color: blue;width: 20px;">اصلاح</th>
+                                        <th scope="col" style="color: red;width: 20px;<?php if($_SESSION['user_type'] == 1) {echo 'display: none;';} ?>">حذف</th>
+                                        <th scope="col" style="color: blue;width: 20px;<?php if($_SESSION['user_type'] == 1) {echo 'display: none;';} ?>">اصلاح</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -232,8 +232,8 @@ if (!isset($_SESSION['logged_in'])) {
                                             <td><?php echo htmlspecialchars($row['p_qty']) ?></td>
                                             <td><?php echo htmlspecialchars($row['p_description']) ?></td>
                                             <td><a id="open-popup" style="color: black;" href="?picAddress=<?php echo htmlspecialchars($row['id']) ?>"><i class="fa-duotone fa-solid fa-image"></i></a></td>
-                                            <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
-                                            <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
+                                            <td <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
+                                            <td <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -266,8 +266,8 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">انبار</th>
                                     <th scope="col">توضیحات</th>
                                     <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
-                                    <th scope="col" style="color: red;width: 20px;">حذف</th>
-                                    <th scope="col" style="color: blue;width: 20px;">اصلاح</th>
+                                    <th scope="col" style="color: red;width: 20px;<?php if($_SESSION['user_type'] == 1) {echo 'display: none;';} ?>">حذف</th>
+                                    <th scope="col" style="color: blue;width: 20px;<?php if($_SESSION['user_type'] == 1) {echo 'display: none;';} ?>">اصلاح</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -291,8 +291,8 @@ if (!isset($_SESSION['logged_in'])) {
                                         ?></td>
                                         <td><?php echo htmlspecialchars($row['p_description']) ?></td>
                                         <td><a style="color: black;" href="?picAddress=<?php echo htmlspecialchars($row['id']) ?>"><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td>
-                                        <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
-                                        <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
+                                        <td <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
+                                        <td <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -318,8 +318,8 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">انبار</th>
                                     <th scope="col">توضیحات</th>
                                     <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
-                                    <th scope="col" style="color: red;width: 20px;">حذف</th>
-                                    <th scope="col" style="color: blue;width: 20px;">اصلاح</th>
+                                    <th scope="col" style="color: red;width: 20px;<?php if($_SESSION['user_type'] == 1) {echo 'display: none;';} ?>">حذف</th>
+                                    <th scope="col" style="color: blue;width: 20px;<?php if($_SESSION['user_type'] == 1) {echo 'display: none;';} ?>">اصلاح</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -343,8 +343,8 @@ if (!isset($_SESSION['logged_in'])) {
                                         ?></td>
                                         <td><?php echo htmlspecialchars($row['p_description']) ?></td>
                                         <td><a style="color: black;" href="?picAddress=<?php echo htmlspecialchars($row['id']) ?>"><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td>
-                                        <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
-                                        <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
+                                        <td <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
+                                        <td <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -373,8 +373,8 @@ if (!isset($_SESSION['logged_in'])) {
                                     <th scope="col">انبار</th>
                                     <th scope="col">توضیحات</th>
                                     <th scope="col" style="color:blueviolet;width: 20px;">تصویر</th>
-                                    <th scope="col" style="color: red;width: 20px;">حذف</th>
-                                    <th scope="col" style="color: blue;width: 20px;">اصلاح</th>
+                                    <th scope="col" style="color: red;width: 20px;<?php if($_SESSION['user_type'] == 1) {echo 'display: none;';} ?>">حذف</th>
+                                    <th scope="col" style="color: blue;width: 20px;<?php if($_SESSION['user_type'] == 1) {echo 'display: none;';} ?>">اصلاح</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -398,9 +398,9 @@ if (!isset($_SESSION['logged_in'])) {
                                         echo $invName;
                                         ?></td>
                                         <td><?php echo htmlspecialchars($row['p_description']) ?></td>
-                                        <td><a style="color: black;" href="?picAddress=<?php echo htmlspecialchars($row['id']) ?>"><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td>
-                                        <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
-                                        <td><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
+                                        <td ><a style="color: black;" href="?picAddress=<?php echo htmlspecialchars($row['id']) ?>"><i id="myText" style="margin-right: 5px;cursor:pointer;" onmouseout="this.style.color='black';" onmouseover="this.style.color='purple';" class="fa-duotone fa-solid fa-image"></i></a></td>
+                                        <td <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
+                                        <td <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>><a style="color: black;" href="updateProduct.php?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 10px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='blue';" class="fa-thin fa-pen-to-square edit-icon"></i></a></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

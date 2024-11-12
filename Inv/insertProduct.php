@@ -29,6 +29,9 @@ require_once '../Scripts/functions.php';
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
+    //اگر کاربر معمولی وارد شده بود برگردد به داشبورد
+    if($_SESSION['user_type'] == 1) {redirect('userPanel');;} 
+    
     //اگر روی دکمه کلیک شده بود و عکس انتخاب شده بود
     if (isset($_POST['newProductBtn']) and !empty($_FILES["image"]["name"])) {
         //دریافت اطلاعات

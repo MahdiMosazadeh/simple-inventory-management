@@ -11,6 +11,9 @@
     }
     else
     {
+        //اگر کاربر معمولی وارد شده بود برگردد به داشبورد
+        if($_SESSION['user_type'] == 1) {redirect('userPanel');;} 
+
         //check Btn Are Clicked Or Not 
         if(isset($_POST['persBtn']))
         {

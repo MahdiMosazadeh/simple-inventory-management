@@ -11,6 +11,9 @@ require_once '../Scripts/functions.php';
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
+    //اگر کاربر معمولی وارد شده بود برگردد به داشبورد
+    if($_SESSION['user_type'] == 1) {redirect('userPanel');;} 
+    
     if (isset($_POST['searchP'])) { //IF User Click Search , Then -> Fetch That Product Row.
         $codeing = htmlspecialchars($_POST['codeing']);
 

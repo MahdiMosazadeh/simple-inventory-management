@@ -249,7 +249,7 @@ if (!isset($_SESSION['logged_in'])) {
                                             <th scope="col">نام کالا</th>
                                             <th scope="col">کدینگ</th>
                                             <th scope="col">موجودی</th>
-                                            <th scope="col" style="color: red;width: 20px;">حذف</th>
+                                            <th scope="col" style="color: red;width: 20px;" >حذف</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -292,7 +292,7 @@ if (!isset($_SESSION['logged_in'])) {
                                                 <td><?php echo $pName; ?></td>
                                                 <td><?php echo $pCodeing; ?></td>
                                                 <td><?php echo $pQTY; ?></td>
-                                                <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
+                                                <td><a style="color: black;" href="?id=<?php echo htmlspecialchars($row['id']) ?>"><i style="margin-right: 5px;<?php if($_SESSION['user_type'] == 1) {echo 'display: none;';} ?>" onmouseout="this.style.color='black';" onmouseover="this.style.color='red';" class="fa-thin fa-bin-recycle"></i></a></td>
                                             </tr>
                                     <?php endforeach;
                                     } ?>

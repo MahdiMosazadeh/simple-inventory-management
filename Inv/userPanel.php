@@ -77,22 +77,22 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <li class="nav-item">
                                         <a target="user-panel-frame" class="nav-link active" aria-current="page" href="dashboard.php"><i class="fa-solid fa-gauge"></i> داشبورد</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>>
                                         <a target="user-panel-frame" class="nav-link" href="initINV.php"><i class="fa-sharp-duotone fa-solid fa-warehouse"></i> معرفی و لیست انبارها</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>>
                                         <a target="user-panel-frame" class="nav-link" href="insertProduct.php"><i class="fa-solid fa-square-plus"></i> معرفی کالا</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>>
                                         <a target="user-panel-frame" class="nav-link" href="inAndOutProdact.php"><i class="fa-solid fa-arrow-down-arrow-up"></i> ورود / خروج کالا</a>
                                     </li>
                                     <li class="nav-item">
                                         <a target="user-panel-frame" class="nav-link" href="statisticsProduct.php"><i class="fa-solid fa-chart-simple"></i> آمار</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>>
                                         <a target="user-panel-frame" class="nav-link" href="updateProduct.php"><i class="fa-solid fa-pen-to-square"></i> اصلاح کالا</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" <?php if($_SESSION['user_type'] == 1) {echo 'style="display: none;"';} ?>>
                                         <a target="user-panel-frame" class="nav-link" href="phoneNumbers.php"><i class="fa-duotone fa-solid fa-book-user"></i> اشخاص</a>
                                     </li>
                                     <li class="nav-item">

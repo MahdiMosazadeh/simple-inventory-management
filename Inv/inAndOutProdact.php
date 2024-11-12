@@ -9,6 +9,9 @@ require_once '../Scripts/jdf.php';
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
+    //اگر کاربر معمولی وارد شده بود برگردد به داشبورد
+    if($_SESSION['user_type'] == 1) {redirect('userPanel');;} 
+
     //اگر کاربر روی دکمه ورود کالا کلیک کند این شرط اجرا میشود
     if (isset($_POST['inBtn'])) {
         date_default_timezone_set('Asia/Tehran');

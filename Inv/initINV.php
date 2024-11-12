@@ -8,6 +8,9 @@ require_once '../Scripts/functions.php';
 if (!isset($_SESSION['logged_in'])) {
     redirect('../');
 } else {
+    //اگر کاربر معمولی وارد شده بود برگردد به داشبورد
+    if($_SESSION['user_type'] == 1) {redirect('userPanel');;} 
+
     //check Btn Are Clicked Or Not 
     if (isset($_POST['invBtn'])) {
         //recive form Paramets
